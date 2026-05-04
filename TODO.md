@@ -1,0 +1,2 @@
+- [ ] Implementazione scheletro del programma e funzionamento
+- [ ] Divisione dei compiti rispetto alle varie translational units
