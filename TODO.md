@@ -17,14 +17,14 @@ sequenceDiagram
 
 ```mermaid
 sequenceDiagram
-    partecipant config_file
-    partecipant log_file
+    partecipant configFile
+    partecipant logFle
     partecipant viewscreen
     partecipant class_body
     partecipant random_method
     partecipant generation
     partecipant calculator
-    
+
     config_file->>generation: read parameters
     class_body->>generation: define objects
     random_method->>generation: initialization of position and velocity
