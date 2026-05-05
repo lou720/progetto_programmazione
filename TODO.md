@@ -17,18 +17,15 @@ sequenceDiagram
 
 ```mermaid
 sequenceDiagram
-    participant config_file
-    participant log_file
-    participant viewscreen
-    participant class_body
-    participant random_method
-    participant generation
-    participant calculator
+    participant Config
+    participant Generator
+    participant Calculator
+    participant Log
+    participant View
 
-    config_file->>generation: read parameters
-    class_body->>generation: define objects
-    random_method->>generation: initialization of position and velocity
-    generation->>calculator: complete objects ready for calculation
-    calculator->>log_file: write position, velocity and energy
-    calculator->>viewscreen: display informations
+    Config->>Generator: read parameters
+    Generator->>Calculator: generate objects
+    Calculator->>Log: write data
+    Calculator->>View: display info
 ```
+
