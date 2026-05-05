@@ -17,8 +17,8 @@ sequenceDiagram
 
 ```mermaid
 sequenceDiagram
-    participant configFile
-    participant logFle
+    participant config_file
+    participant log_file
     participant viewscreen
     participant class_body
     participant random_method
