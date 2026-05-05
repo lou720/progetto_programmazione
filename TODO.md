@@ -17,13 +17,13 @@ sequenceDiagram
 
 ```mermaid
 sequenceDiagram
-    partecipant configFile
-    partecipant logFle
-    partecipant viewscreen
-    partecipant class_body
-    partecipant random_method
-    partecipant generation
-    partecipant calculator
+    participant configFile
+    participant logFle
+    participant viewscreen
+    participant class_body
+    participant random_method
+    participant generation
+    participant calculator
 
     config_file->>generation: read parameters
     class_body->>generation: define objects
