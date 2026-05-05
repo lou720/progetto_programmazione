@@ -16,18 +16,19 @@ sequenceDiagram
 ```
 
 ```mermaid
-partecipant config_file
-partecipant log_file
-partecipant viewscreen
-partecipant class_body
-partecipant random_method
-partecipant generation
-partecipant calculator
-
-config_file->>generation: read parameters
-class_body->>generation: define objects
-random_method->>generation: initialization of position and velocity
-generation->>calculator: complete objects ready for calculation
-calculator->>log_file: write position, velocity and energy
-calculator->>viewscreen: display informations
+sequenceDiagram
+    partecipant config_file
+    partecipant log_file
+    partecipant viewscreen
+    partecipant class_body
+    partecipant random_method
+    partecipant generation
+    partecipant calculator
+    
+    config_file->>generation: read parameters
+    class_body->>generation: define objects
+    random_method->>generation: initialization of position and velocity
+    generation->>calculator: complete objects ready for calculation
+    calculator->>log_file: write position, velocity and energy
+    calculator->>viewscreen: display informations
 ```
