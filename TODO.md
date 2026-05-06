@@ -16,3 +16,15 @@ sequenceDiagram
     Calculator->>View: display info
 ```
 
+## Obiettivo: figura 8
+file configurazione
+TU lettura dati
+
+TU corpi
+
+TU generazione corpi
+
+TU calcolo posizione
+
+TU view
+---
