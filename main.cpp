@@ -3,6 +3,7 @@
 
 #include "input.hpp"
 #include "body.hpp"
+#include "simulation.hpp"
 #include <vector>
 #include <SFML/System/Vector2.hpp>
 
@@ -17,6 +18,10 @@ int main() {
 
     nc::inputFromFileConfig(fileName, steps, dt, n_particle, r, v);
 
-    nc::generateBodies(container, r, v);
+
+
+    container = nc::generateBodies(container, r, v);
+
+    nc::Simulation sim{steps, dt, container}
  
 }
