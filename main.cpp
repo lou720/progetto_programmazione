@@ -18,10 +18,6 @@ int main() {
 
     nc::inputFromFileConfig(fileName, steps, dt, n_particle, r, v);
 
-
-
-    container = nc::generateBodies(container, r, v);
-
-    nc::Simulation sim{steps, dt, container}
+    nc::generateBodies(container, r, v);
  
 }
