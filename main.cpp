@@ -33,11 +33,11 @@ int main() {
         if (ss >> flag) {
           if (flag == "-r" || flag == "--random") {
             std::cout << "Running random simulation, flag: " << flag << '\n';
-            sim.run('r');
+            sim.run();
           } else if (flag == "-c" || flag == "--config") {
             std::cout << "Running simulation from file.config, flag: " << flag
                       << '\n';
-            sim.run('c');
+            sim.run();
           } else {
             std::cout << "Invlid flag\n";
           }

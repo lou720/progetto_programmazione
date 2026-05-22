@@ -9,12 +9,13 @@ class Body {
   int id_{};
   nc::Vec2 r_{};
   nc::Vec2 v_{};
-  float mass_{};
-  // float radius_{}; // Si può aggiungere il raggio
-                      // proporzionale alla massa
+  double mass_{};
+  // double radius_{}; // Si può aggiungere il raggio
+  // proporzionale alla massa
 
  public:
-  Body();
+  Body(int id, nc::Vec2 r, nc::Vec2 v, double mass)
+      : id_{id}, r_{r}, v_{v}, mass_{mass} {};
 
   nc::Vec2 const& Pos() const;
   nc::Vec2 const& Vel() const;

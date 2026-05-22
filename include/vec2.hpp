@@ -1,4 +1,5 @@
-
+#ifndef VEC2_HPP
+#define VEC2_HPP
 
 namespace nc {
 struct Vec2 {
@@ -14,3 +15,4 @@ bool operator==(Vec2 const& v1, Vec2 const& v2);
 
 
 }  // namespace nc
+#endif
