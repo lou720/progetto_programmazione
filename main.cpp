@@ -11,11 +11,11 @@
 #include "simulation.hpp"
 #include "simulationConfig.hpp"
 
-int main(int argc, char** argv) {
+int main() {
   try {
     // Load automatico da config.txt
     nc::SimulationConfig config = nc::load();
-    
+
     nc::Simulation sim{config};
 
     sim.run();

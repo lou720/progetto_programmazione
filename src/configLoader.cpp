@@ -6,85 +6,70 @@
 #include <string>
 
 #include "body.hpp"
+#include "simulationConfig.hpp"
 
 namespace nc {
 
 SimulationConfig load() {
-    SimulationConfig sim_config{};
+  SimulationConfig sim_config{};
 
-    std::ifstream file("config.txt");
+  std::ifstream file("config.txt");
 
-    if (!file.is_open()) {
-        throw std::runtime_error("Cannot open config file");
+  if (!file.is_open()) {
+    throw std::runtime_error("Cannot open config file");
+  }
+
+  std::string line{};
+
+  while (std::getline(file, line)) {
+    // righe vuote/commenti
+    if (line.empty() || line[0] == '#') continue;
+
+    auto pos = line.find('#');
+
+    if (pos != std::string::npos) {
+      line = line.substr(0, pos);
     }
 
-    std::string line{};
+    std::stringstream ss(line);
 
-    while (std::getline(file, line)) {
+    std::string key{};
+    ss >> key;
 
-        // righe vuote/commenti
-        if (line.empty() || line[0] == '#')
-            continue;
+    if (key == "N") {
+      size_t N;
+      ss >> N;
 
-        auto pos = line.find('#');
+      sim_config.bodies.reserve(N);
 
-        if (pos != std::string::npos) {
-            line = line.substr(0, pos);
-        }
+    } else if (key == "dt") {
+      ss >> sim_config.dt;
 
-        std::stringstream ss(line);
+    } else if (key == "steps") {
+      ss >> sim_config.steps;
 
-        std::string key{};
-        ss >> key;
+    } else if (key == "G") {
+      ss >> sim_config.G;
 
-        if (key == "N") {
+    } else if (key == "eps") {
+      ss >> sim_config.eps;
 
-            int N;
-            ss >> N;
+    } else if (key == "body") {
+      int id{};
+      double mass{};
+      double pos_x{};
+      double pos_y{};
+      double vel_x{};
+      double vel_y{};
 
-            sim_config.bodies.reserve(N);
+      ss >> id >> mass >> pos_x >> pos_y >> vel_x >> vel_y;
 
-        } else if (key == "dt") {
-
-            ss >> sim_config.dt;
-
-        } else if (key == "steps") {
-
-            ss >> sim_config.steps;
-
-        } else if (key == "G") {
-
-            ss >> sim_config.G;
-
-        } else if (key == "eps") {
-
-            ss >> sim_config.eps;
-
-        } else if (key == "body") {
-
-            int id{};
-            double mass{};
-            double pos_x{};
-            double pos_y{};
-            double vel_x{};
-            double vel_y{};
-
-            ss >> id >> mass
-               >> pos_x >> pos_y
-               >> vel_x >> vel_y;
-
-            sim_config.bodies.emplace_back(
-                Body{
-                    id,
-                    Vec2{pos_x, pos_y},
-                    Vec2{vel_x, vel_y},
-                    mass
-                }
-            );
-        }
+      sim_config.bodies.emplace_back(
+          Body{id, Vec2{pos_x, pos_y}, Vec2{vel_x, vel_y}, mass});
     }
+  }
 
-    return sim_config;
+  return sim_config;
 }
 
-} // namespace nc
+}  // namespace nc

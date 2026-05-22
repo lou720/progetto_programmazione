@@ -2,7 +2,8 @@
 #define NC_SIMULATION_CONFIG_HPP
 
 #include <vector>
-#include "include/body.hpp"
+
+#include "body.hpp"
 
 namespace nc {
 struct SimulationConfig {

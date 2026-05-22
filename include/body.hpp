@@ -1,7 +1,7 @@
 #ifndef NC_BODY_HPP
 #define NC_BODY_HPP
 
-#include "include/vec2.hpp"
+#include "vec2.hpp"
 
 namespace nc {
 class Body {
@@ -14,11 +14,9 @@ class Body {
   // proporzionale alla massa
 
  public:
-  Body(int id, nc::Vec2 r, nc::Vec2 v, double mass)
-      : id_{id}, r_{r}, v_{v}, mass_{mass} {};
-
-  nc::Vec2 const& Pos() const;
-  nc::Vec2 const& Vel() const;
+  Body(int id, nc::Vec2 r, nc::Vec2 v, double mass);
+  nc::Vec2 const& pos() const;
+  nc::Vec2 const& vel() const;
 };
 
 }  // namespace nc

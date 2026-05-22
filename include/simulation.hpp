@@ -2,12 +2,13 @@
 #define NC_SIMULATION_HPP
 
 #include <vector>
+
 #include "body.hpp"
 #include "simulationConfig.hpp"
 
 namespace nc {
 class Simulation {
-  private:
+ private:
   int steps_{};
   double dt_{};
   double G_{};
@@ -15,13 +16,10 @@ class Simulation {
   std::vector<nc::Body> bodies_{};
 
  public:
- Simulation(nc::SimulationConfig c) : steps_{c.steps}, dt_{c.dt}, G_{c.G}, eps_{c.eps} {
-  bodies_.reserve(c.bodies.size());
-  for (auto const& i : c.bodies) {
-    bodies_.emplace_back(i);
-  }
- }
+  Simulation(nc::SimulationConfig const& c);
+
   void run();
+
 
 };
 }  // namespace nc

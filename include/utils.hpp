@@ -1,5 +1,3 @@
 
 
-namespace nc {
-
-}  // namespace nc
+namespace nc {}  // namespace nc

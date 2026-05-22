@@ -6,13 +6,16 @@ struct Vec2 {
   double x;
   double y;
 
-  Vec2& operator+=(Vec2 const& v);
+  Vec2& operator+=(Vec2 const&);
 };
 
-Vec2 operator+(Vec2 const& v1, Vec2 const& v2);
+Vec2 operator+(Vec2 const&, Vec2 const&);
 
-bool operator==(Vec2 const& v1, Vec2 const& v2);
+Vec2 operator-(Vec2 const&, Vec2 const&);
 
+bool operator==(Vec2 const&, Vec2 const&);
+
+// Vec2 operator*(vec2 const&, double);
 
 }  // namespace nc
 #endif
