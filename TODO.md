@@ -16,15 +16,15 @@ sequenceDiagram
     Calculator->>View: display info
 ```
 
-## Obiettivo: figura 8
-file configurazione
-TU lettura dati
+## TODO
+simulation.hpp - Metodi fondamentali:
+- calcolo accelerazioni
+- step Velocity Verlet
+- energia cinetica
+- energia potenziale
+- quantità di moto totale
+- momento angolare totale
+- eventuale stampa/salvataggio dati
 
-TU corpi
-
-TU generazione corpi
-
-TU calcolo posizione
-
-TU view
----
+Stampare su file CSV coordinate e energia ad ogni step.
+Mostrare finestra grafica con le orbite dei corpi. 
