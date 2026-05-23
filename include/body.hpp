@@ -16,14 +16,15 @@ class Body {
 
  public:
   Body(int id, nc::Vec2 const& r, nc::Vec2 const& v, double mass);
-  nc::Vec2& pos();
-  nc::Vec2& vel();
-  nc::Vec2& acc();
-  nc::Vec2 const& pos() const;
+  nc::Vec2 const& pos() const; // getter
   nc::Vec2 const& vel() const;
   nc::Vec2 const& acc() const;
   double mass() const;
   int id() const;
+
+  void pos(nc::Vec2 const&); // setter
+  void vel(nc::Vec2 const&); 
+  void acc(nc::Vec2 const&); 
 };
 
 }  // namespace nc

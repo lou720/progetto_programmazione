@@ -37,7 +37,13 @@ find_package(SFML 2.6 REQUIRED COMPONENTS graphics window system)
 
 # dichiara un eseguibile chiamato "progetto", prodotto a partire dai file sorgente indicati
 # sostituire "progetto" con il nome del proprio eseguibile e i file sorgente con i propri (con nomi sensati!)
-add_executable(manybodysim main.cpp src/configLoader.cpp src/simulation.cpp)
+add_executable(manybodysim
+ src/main.cpp 
+ src/configLoader.cpp 
+ src/simulation.cpp
+ src/body.cpp
+ src/vec2.cpp
+ )
 # nel caso si usi SFML. analogamente per eventuali altre librerie
 
 target_include_directories(manybodysim PRIVATE include)

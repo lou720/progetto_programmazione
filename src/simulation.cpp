@@ -13,6 +13,7 @@ void Simulation::run() { std::cout << "Comando run\n"; }
 void Simulation::velocityVertel() {
     for (auto const& body : bodies_) {
         nc::Vec2 r_new = body.pos() + body.vel()*dt_ + .5*body.acc()*dt_*dt_; 
+        
     }
 }
 }  // namespace nc
