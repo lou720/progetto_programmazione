@@ -1,7 +1,7 @@
 #include "simulation.hpp"
 
 #include <iostream>
-
+#include <cmath>
 #include "vec2.hpp"
 
 namespace nc {
@@ -11,18 +11,35 @@ Simulation::Simulation(SimulationConfig const& c)
 
 void Simulation::run() { std::cout << "Comando run\n"; }
 
-void Simulation::velocityVertel() {
+void Simulation::velocityVerlet() {
+    // aggiorno la posizione per tutti
   for (auto& b : bodies_) {
     Vec2 r_new = b.pos() + b.vel() * dt_ + 0.5 * b.acc() * dt_ * dt_;
-
     b.pos(r_new);
-
+  } 
+  // calcolo accelerazione e velocità sulla nuova posizione
+  for (auto& bi: bodies_) {
     Vec2 a_new{};
+    
+    for (auto const& bj : bodies_) {
 
-    Vec2 v_new = b.vel() + 0.5 * (b.acc() + a_new) * dt_;
+         if (bi.id() == bj.id()) {
+            continue;
+        }
 
-    b.acc(a_new);
-    b.vel(v_new);
+        Vec2 dr = bj.pos() - bi.pos();
+
+        double dist2 = dr.norm2() + eps_ * eps_;
+
+        double denom = std::pow(dist2, 1.5);
+
+        a_new += G_ * bj.mass() / denom * dr;
+    }
+
+    Vec2 v_new = bi.vel() + 0.5 * (bi.acc() + a_new) * dt_;
+
+    bi.acc(a_new);
+    bi.vel(v_new);
   }
 }
 
