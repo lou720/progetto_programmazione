@@ -11,7 +11,7 @@ struct SimulationConfig {
   double dt{};
   double G{};
   double eps{};
-  std::vector<nc::Body> bodies{};
+  std::vector<Body> bodies{};
 };
 }  // namespace nc
 

@@ -13,10 +13,10 @@ class Simulation {
   double dt_{};
   double G_{};
   double eps_{};
-  std::vector<nc::Body> bodies_{};
+  std::vector<Body> bodies_{};
 
  public:
-  Simulation(nc::SimulationConfig const& c);
+  Simulation(SimulationConfig const& c);
 
   void run();
 
