@@ -20,7 +20,7 @@ class Simulation {
 
   void run();
 
-
+  void velocityVertel();
 };
 }  // namespace nc
 #endif

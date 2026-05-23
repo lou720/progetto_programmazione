@@ -15,7 +15,9 @@ Vec2 operator-(Vec2 const&, Vec2 const&);
 
 bool operator==(Vec2 const&, Vec2 const&);
 
-// Vec2 operator*(vec2 const&, double);
+Vec2 operator*(Vec2 const&, double);
+
+Vec2 operator*(double, Vec2 const&);
 
 }  // namespace nc
 #endif
