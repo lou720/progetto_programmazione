@@ -12,7 +12,7 @@ struct Vec2 {
 
   Vec2& operator*=(double);
 
-  double norm2();
+  double norm2() const;
   // return x*x + y*y;
 };
 

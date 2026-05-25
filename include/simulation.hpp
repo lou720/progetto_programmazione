@@ -16,11 +16,17 @@ class Simulation {
   std::vector<Body> bodies_{};
 
  public:
-  Simulation(SimulationConfig const& c);
+  Simulation(SimulationConfig const&);
 
   void run();
 
   void velocityVerlet();
+
+  double kineticEnergy() const;
+
+  double potencialEnergy() const;
+
+  double totalEnergy() const;
 };
 }  // namespace nc
 #endif
