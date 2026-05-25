@@ -14,19 +14,10 @@ double Body::mass() const { return mass_; }
 
 int Body::id() const { return id_; }
 
-void Body::pos(nc::Vec2 const& r_new) {
-  r_.x = r_new.x;
-  r_.y = r_new.y;
-}
+void Body::pos(nc::Vec2 const& r_new) { r_ = r_new; }
 
-void Body::vel(nc::Vec2 const& v_new) {
-  v_.x = v_new.x;
-  v_.y = v_new.y;
-}
+void Body::vel(nc::Vec2 const& v_new) { v_ = v_new; }
 
-void Body::acc(nc::Vec2 const& a_new) {
-  a_.x = a_new.x;
-  a_.y = a_new.y;
-}
+void Body::acc(nc::Vec2 const& a_new) { a_ = a_new; }
 
 }  // namespace nc

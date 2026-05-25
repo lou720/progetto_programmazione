@@ -31,7 +31,7 @@ void Simulation::velocityVerlet() {
 
       double dist2 = dr.norm2() + eps_ * eps_;
 
-      double denom = std::pow(dist2, 1.5); // inefficiente
+      double denom = std::pow(dist2, 1.5);  // inefficiente
 
       a_new += G_ * bj.mass() / denom * dr;
     }
@@ -41,6 +41,11 @@ void Simulation::velocityVerlet() {
     bi.acc(a_new);  // potrebbe dare problemi perché i corpi
     bi.vel(v_new);  // successivi si aggiornano con i nuovi valori di
                     // accelerazione e velocità
+    // soluzione:
+    // std::vector<Vec2> a_new_vec{};
+    // std::vector<Vec2> v_new_vec{};
+    // push_back di accelerazioni e velocità nuove e aggiornamento fuori dal
+    // ciclo
   }
 }
 
