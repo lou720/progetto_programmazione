@@ -31,15 +31,16 @@ void Simulation::velocityVerlet() {
 
       double dist2 = dr.norm2() + eps_ * eps_;
 
-      double denom = std::pow(dist2, 1.5);
+      double denom = std::pow(dist2, 1.5); // inefficiente
 
       a_new += G_ * bj.mass() / denom * dr;
     }
 
     Vec2 v_new = bi.vel() + 0.5 * (bi.acc() + a_new) * dt_;
 
-    bi.acc(a_new);
-    bi.vel(v_new);
+    bi.acc(a_new);  // potrebbe dare problemi perché i corpi
+    bi.vel(v_new);  // successivi si aggiornano con i nuovi valori di
+                    // accelerazione e velocità
   }
 }
 
@@ -51,21 +52,22 @@ double Simulation::kineticEnergy() const {
   return sum_k_en;
 }
 
-double Simulation::potencialEnergy() const {
+double Simulation::potentialEnergy() const {
   double sum_u_en{};
   for (auto const& bi : bodies_) {
     for (auto const& bj : bodies_) {
       if (bi.id() == bj.id()) {
         continue;
       }
-      Vec2 dr = std::abs(bi.pos() - bj.pos());
-      // abs not define for Vec2
-      double sum_u_en += G_ * bi.mass() * bj.mass() / dr;
-    }
+      Vec2 dr = bi.pos() - bj.pos();
+      sum_u_en += G_ * bi.mass() * bj.mass() / dr.norm();
+    }  // dovrei fare softening come in velocityVerlet()?
   }
   return -sum_u_en;
 }
 
-double Simulation::totalEnergy() const { return kineticEnergy() + potencialEnergy(); }
+double Simulation::totalEnergy() const {
+  return kineticEnergy() + potentialEnergy();
+}
 
 }  // namespace nc

@@ -12,6 +12,9 @@ struct Vec2 {
 
   Vec2& operator*=(double);
 
+  double norm() const;
+  // return std::sqrt(x*x + y*y)
+
   double norm2() const;
   // return x*x + y*y;
 };

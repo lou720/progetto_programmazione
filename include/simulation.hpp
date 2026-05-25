@@ -24,7 +24,7 @@ class Simulation {
 
   double kineticEnergy() const;
 
-  double potencialEnergy() const;
+  double potentialEnergy() const;
 
   double totalEnergy() const;
 };
