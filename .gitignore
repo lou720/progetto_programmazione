@@ -2,3 +2,4 @@ build/*
 build
 CMakeLists.txt
 .clang-format
+*.txt

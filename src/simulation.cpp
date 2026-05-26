@@ -11,9 +11,9 @@ Simulation::Simulation(SimulationConfig const& c)
     : steps_{c.steps}, dt_{c.dt}, G_{c.G}, eps_{c.eps}, bodies_{c.bodies} {}
 
 void Simulation::run() {
-  for (int i; i != steps_; ++i) {
+  for (int i{1}; i != steps_; ++i) {
     velocityVerlet();
-    std::cout << totalEnergy();
+    std::cout << i << ',' << totalEnergy() << '\n';
   };
 }
 
