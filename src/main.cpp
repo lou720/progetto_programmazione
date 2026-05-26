@@ -1,11 +1,7 @@
 // Questo main permette la simulazione solo da file di configurazione
 
-#include <cstdlib>
 #include <exception>
 #include <iostream>
-#include <limits>
-#include <sstream>
-#include <string>
 
 #include "configLoader.hpp"
 #include "simulation.hpp"
