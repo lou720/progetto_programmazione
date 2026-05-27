@@ -28,7 +28,7 @@ class Simulation {
 
   double totalEnergy() const;
 
-  // void computeAcceleration();
+  Vec2 computeAccelerations(Body const&);
 };
 }  // namespace nc
 #endif

@@ -11,10 +11,9 @@ Simulation::Simulation(SimulationConfig const& c)
     : steps_{c.steps}, dt_{c.dt}, G_{c.G}, eps_{c.eps}, bodies_{c.bodies} {}
 
 void Simulation::run() {
-  for (int i = 0 ; i < steps_; ++i) {
+  for (int i = 0; i < steps_; ++i) {
     velocityVerlet();
-    std::cout << bodies_[0].pos().x << ' ' << bodies_[0].pos().y
-              << '\n';
+    std::cout << bodies_[0].pos().x << ' ' << bodies_[0].pos().y << '\n';
   };
 }
 
@@ -28,24 +27,12 @@ void Simulation::velocityVerlet() {
   std::vector<Vec2> a_new_vec{};
   std::vector<Vec2> v_new_vec{};
 
-  for (auto& bi : bodies_) {
-    Vec2 a_new{};
+  a_new_vec.reserve(bodies_.size());
+  v_new_vec.reserve(bodies_.size());
 
-    for (auto const& bj : bodies_) {
-      if (bi.id() == bj.id()) {
-        continue;
-      }
-
-      Vec2 dr = bj.pos() - bi.pos();
-
-      double dist2 = dr.norm2() + eps_ * eps_;
-
-      double denom = std::pow(dist2, 1.5);  // inefficiente
-
-      a_new += G_ * bj.mass() / denom * dr;
-    }
-
-    Vec2 v_new = bi.vel() + 0.5 * (bi.acc() + a_new) * dt_;
+  for (auto& b : bodies_) {
+    Vec2 a_new = computeAccelerations(b);
+    Vec2 v_new = b.vel() + 0.5 * (b.acc() + a_new) * dt_;
 
     a_new_vec.push_back(a_new);
     v_new_vec.push_back(v_new);
@@ -82,6 +69,24 @@ double Simulation::potentialEnergy() const {
 
 double Simulation::totalEnergy() const {
   return kineticEnergy() + potentialEnergy();
+}
+
+Vec2 Simulation::computeAccelerations(Body const& bi) {
+  Vec2 a_new{};
+  for (auto const& bj : bodies_) {
+    if (bi.id() == bj.id()) {
+      continue;
+    }
+
+    Vec2 dr = bj.pos() - bi.pos();
+
+    double dist2 = dr.norm2() + eps_ * eps_;
+
+    double denom = std::pow(dist2, 1.5);  // inefficiente
+
+    a_new += G_ * bj.mass() / denom * dr;
+  }
+  return a_new;
 }
 
 }  // namespace nc
