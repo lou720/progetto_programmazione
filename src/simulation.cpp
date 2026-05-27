@@ -11,9 +11,10 @@ Simulation::Simulation(SimulationConfig const& c)
     : steps_{c.steps}, dt_{c.dt}, G_{c.G}, eps_{c.eps}, bodies_{c.bodies} {}
 
 void Simulation::run() {
-  for (int i{1}; i != steps_; ++i) {
+  for (int i = 0 ; i < steps_; ++i) {
     velocityVerlet();
-    std::cout << i << ',' << totalEnergy() << '\n';
+    std::cout << bodies_[0].pos().x << ' ' << bodies_[0].pos().y
+              << '\n';
   };
 }
 
@@ -24,6 +25,9 @@ void Simulation::velocityVerlet() {
     b.pos(r_new);
   }
   // calcolo accelerazione e velocità sulla nuova posizione
+  std::vector<Vec2> a_new_vec{};
+  std::vector<Vec2> v_new_vec{};
+
   for (auto& bi : bodies_) {
     Vec2 a_new{};
 
@@ -43,14 +47,13 @@ void Simulation::velocityVerlet() {
 
     Vec2 v_new = bi.vel() + 0.5 * (bi.acc() + a_new) * dt_;
 
-    bi.acc(a_new);  // potrebbe dare problemi perché i corpi
-    bi.vel(v_new);  // successivi si aggiornano con i nuovi valori di
-                    // accelerazione e velocità
-    // soluzione:
-    // std::vector<Vec2> a_new_vec{};
-    // std::vector<Vec2> v_new_vec{};
-    // push_back di accelerazioni e velocità nuove e aggiornamento fuori dal
-    // ciclo
+    a_new_vec.push_back(a_new);
+    v_new_vec.push_back(v_new);
+  }
+
+  for (auto i = 0; i < bodies_.size(); ++i) {
+    bodies_[i].acc(a_new_vec[i]);
+    bodies_[i].vel(v_new_vec[i]);
   }
 }
 
@@ -63,6 +66,7 @@ double Simulation::kineticEnergy() const {
 }
 
 double Simulation::potentialEnergy() const {
+  // Doppio ciclo potrebbe portare ad errore
   double sum_u_en{};
   for (auto const& bi : bodies_) {
     for (auto const& bj : bodies_) {
@@ -70,10 +74,10 @@ double Simulation::potentialEnergy() const {
         continue;
       }
       Vec2 dr = bi.pos() - bj.pos();
-      sum_u_en += G_ * bi.mass() * bj.mass() / dr.norm();
+      sum_u_en -= G_ * bi.mass() * bj.mass() / dr.norm();
     }  // dovrei fare softening come in velocityVerlet()?
   }
-  return -sum_u_en;
+  return sum_u_en;
 }
 
 double Simulation::totalEnergy() const {

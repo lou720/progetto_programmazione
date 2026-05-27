@@ -27,6 +27,8 @@ class Simulation {
   double potentialEnergy() const;
 
   double totalEnergy() const;
+
+  // void computeAcceleration();
 };
 }  // namespace nc
 #endif
