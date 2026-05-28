@@ -18,13 +18,10 @@ sequenceDiagram
 
 ## TODO
 simulation.hpp - Metodi fondamentali:
-- calcolo accelerazioni
-- step Velocity Verlet
-- energia cinetica
-- energia potenziale
+- energia potenziale (Da aggiustare!)
 - quantità di moto totale
 - momento angolare totale
 - eventuale stampa/salvataggio dati
-
-Stampare su file CSV coordinate e energia ad ogni step.
-Mostrare finestra grafica con le orbite dei corpi. 
+- rappresentazione grafica con SFML
+- valutazione corretteza dati
+- randomi input di dati

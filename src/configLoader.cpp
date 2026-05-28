@@ -16,14 +16,16 @@ SimulationConfig load() {
   std::ifstream file("config.txt");
 
   if (!file.is_open()) {
-    throw std::runtime_error("Cannot open config file");
+    throw std::runtime_error("Cannot open config file\n");
   }
 
   std::string line{};
 
   while (std::getline(file, line)) {
     // righe vuote/commenti
-    if (line.empty() || line[0] == '#') continue;
+    if (line.empty() || line[0] == '#') {
+      continue;
+    }
 
     auto pos = line.find('#');
 
