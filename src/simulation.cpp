@@ -13,7 +13,9 @@ Simulation::Simulation(SimulationConfig const& c)
 void Simulation::run() {
   for (int i = 0; i < steps_; ++i) {
     velocityVerlet();
-    std::cout << bodies_[0].pos().x << ' ' << bodies_[0].pos().y << '\n';
+    // std::cout << bodies_[0].pos().x << ' ' << bodies_[0].pos().y << '\n';
+    std::cout << potentialEnergy() << ' ' << kineticEnergy() << ' '
+              << totalEnergy() << '\n';
   };
 }
 
@@ -38,7 +40,7 @@ void Simulation::velocityVerlet() {
     v_new_vec.push_back(v_new);
   }
 
-  for (auto i = 0; i < bodies_.size(); ++i) {
+  for (size_t i = 0; i < bodies_.size(); ++i) {
     bodies_[i].acc(a_new_vec[i]);
     bodies_[i].vel(v_new_vec[i]);
   }
@@ -53,16 +55,14 @@ double Simulation::kineticEnergy() const {
 }
 
 double Simulation::potentialEnergy() const {
-  // Doppio ciclo potrebbe portare ad errore
   double sum_u_en{};
-  for (auto const& bi : bodies_) {
-    for (auto const& bj : bodies_) {
-      if (bi.id() == bj.id()) {
-        continue;
-      }
-      Vec2 dr = bi.pos() - bj.pos();
-      sum_u_en -= G_ * bi.mass() * bj.mass() / dr.norm();
-    }  // dovrei fare softening come in velocityVerlet()?
+  for (size_t i = 0; i < bodies_.size(); ++i) {
+    // size_t usato per evitare conversione implicita
+    for (size_t j = i + 1; j < bodies_.size(); ++j) {
+      auto dr = bodies_[i].pos() - bodies_[j].pos();
+      sum_u_en -= G_ * bodies_[i].mass() * bodies_[j].mass() / dr.norm();
+      // si potrebbe fare softening con eps
+    }
   }
   return sum_u_en;
 }

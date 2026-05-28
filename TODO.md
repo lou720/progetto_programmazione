@@ -18,7 +18,6 @@ sequenceDiagram
 
 ## TODO
 simulation.hpp - Metodi fondamentali:
-- energia potenziale (Da aggiustare!)
 - quantità di moto totale
 - momento angolare totale
 - eventuale stampa/salvataggio dati
