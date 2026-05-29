@@ -5,13 +5,14 @@ Renderer::Renderer(RendererConfig const& r)
     : title_{r.title}, width_{r.width}, height_{r.height}, fps_{r.fps} {}
 
 void Renderer::draw(sf::RenderWindow& w, std::vector<Body> const& v_bodies) {
-    float scale{100.f};
+    // float scale{100.f};
   for (auto const& b : v_bodies) {
-    sf::CircleShape shape{8.f};
-    sf::Vector2f body_pos{
-        400.f + b.pos().x * scale, 
-        300.f - b.pos().y * scale
-    };
+    sf::CircleShape shape{0.1f};
+    // sf::Vector2f body_pos{
+    //     400.f + b.pos().x * scale, 
+    //     300.f - b.pos().y * scale
+    // };
+    sf::Vector2f body_pos{b.pos().x, b.pos().y};
     shape.setPosition(body_pos);
     w.draw(shape);
   }

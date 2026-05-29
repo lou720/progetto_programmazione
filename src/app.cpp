@@ -11,6 +11,13 @@ void App::run() {
   sf::RenderWindow window(sf::VideoMode(renderer_.width(), renderer_.height()),
                           renderer_.title());
 
+  sf::View view;
+  view.setCenter(sf::Vector2f{0.f, 0.f});
+  view.setSize(sf::Vector2f{5.f, 5.f});
+
+    // sf::View view{sf::FloatRect{-5.f, -5.f, 5.f, 5.f}};
+  window.setView(view);
+
   while (window.isOpen()) {
     for (int i = 0; i < simulation_.steps(); ++i) {
       sf::Event event;
@@ -24,7 +31,7 @@ void App::run() {
       window.clear(sf::Color::Black);
 
       renderer_.draw(window, simulation_.bodies());
-      
+
       window.display();
     }
   }
