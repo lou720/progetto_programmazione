@@ -10,19 +10,20 @@ namespace nc {
 Simulation::Simulation(SimulationConfig const& c)
     : steps_{c.steps}, dt_{c.dt}, G_{c.G}, eps_{c.eps}, bodies_{c.bodies} {
   for (auto& b : bodies_) {
-    b.acc(computeAccelerations(b));
+    b.setAcc(computeAccelerations(b));
   }
 }
 
 void Simulation::step() {
   velocityVerlet();
+  ++current_step_;
 }
 
 void Simulation::velocityVerlet() {
   // aggiorno la posizione per tutti
   for (auto& b : bodies_) {
     Vec2 r_new = b.pos() + b.vel() * dt_ + 0.5 * b.acc() * dt_ * dt_;
-    b.pos(r_new);
+    b.setPos(r_new);
   }
   // calcolo accelerazione e velocità sulla nuova posizione
   std::vector<Vec2> a_new_vec{};
@@ -40,8 +41,8 @@ void Simulation::velocityVerlet() {
   }
 
   for (size_t i = 0; i < bodies_.size(); ++i) {
-    bodies_[i].acc(a_new_vec[i]);
-    bodies_[i].vel(v_new_vec[i]);
+    bodies_[i].setAcc(a_new_vec[i]);
+    bodies_[i].setVel(v_new_vec[i]);
   }
 }
 
@@ -88,7 +89,8 @@ Vec2 Simulation::computeAccelerations(Body const& bi) const {
   return a_new;
 }
 
-int Simulation::maxSteps() const { return steps_; }
-
 std::vector<Body> const& Simulation::bodies() const { return bodies_; }
+
+bool Simulation::finished() const { return current_step_ >= steps_; }
+
 }  // namespace nc

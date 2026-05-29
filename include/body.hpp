@@ -31,9 +31,9 @@ class Body {
   int id() const;
 
   // setter
-  void pos(Vec2 const&);
-  void vel(Vec2 const&);
-  void acc(Vec2 const&);
+  void setPos(Vec2 const&);
+  void setVel(Vec2 const&);
+  void setAcc(Vec2 const&);
 };
 
 }  // namespace nc

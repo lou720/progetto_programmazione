@@ -10,6 +10,7 @@ namespace nc {
 class Simulation {
  private:
   int steps_{};
+  int current_step_{};
   double dt_{};
   double G_{};
   double eps_{};
@@ -33,6 +34,8 @@ class Simulation {
   int maxSteps() const;
 
   std::vector<Body> const& bodies() const;
+
+  bool finished() const;
 };
 }  // namespace nc
 #endif

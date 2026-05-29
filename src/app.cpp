@@ -11,15 +11,13 @@ App::App(SimulationConfig const& s, RendererConfig const& r)
 }
 
 void App::run() {
-  int current_step{1};
-
   while (window_.isOpen()) {
     sf::Event event;
 
     while (window_.pollEvent(event)) {
       if (event.type == sf::Event::Closed) window_.close();
     }
-    if (current_step == simulation_.maxSteps()) {
+    if (simulation_.finished()) {
       window_.close();
     }
 
@@ -32,8 +30,6 @@ void App::run() {
     renderer_.draw(window_, simulation_.bodies());
 
     window_.display();
-
-    ++current_step;
   }
 }
 

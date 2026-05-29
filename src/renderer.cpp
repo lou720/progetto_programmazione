@@ -11,7 +11,7 @@ Renderer::Renderer(RendererConfig const& r)
   view_.setCenter(sf::Vector2f{0.f, 0.f});
   view_.setSize(sf::Vector2f{7.5f, 5.f});
 
-  body_shape_.setOrigin(0.1f, 0.1f);
+  body_shape_.setOrigin(r.radius, r.radius);
   body_shape_.setFillColor(sf::Color::White);
 }
 
