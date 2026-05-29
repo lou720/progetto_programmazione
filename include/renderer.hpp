@@ -2,6 +2,7 @@
 #define NC_RENDERER_HPP
 
 #include <string>
+#include <SFML/Graphics.hpp>
 
 #include "rendererConfig.hpp"
 
@@ -15,6 +16,8 @@ class Renderer {
 
  public:
   Renderer(RendererConfig const&);
+
+  void draw(sf::RenderWindow&);
 };
 }  // namespace nc
 

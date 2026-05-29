@@ -4,17 +4,19 @@
 #include <iostream>
 
 #include "configLoader.hpp"
-#include "simulation.hpp"
 #include "simulationConfig.hpp"
+#include "app.hpp"
+#include "rendererConfig.hpp"
 
 int main() {
   try {
     // Load automatico da config.txt
-    nc::SimulationConfig config = nc::load();
+    nc::SimulationConfig sim_config = nc::load();
+    nc::RendererConfig ren_config{};
 
-    nc::Simulation sim{config};
-
-    sim.run();
+    nc::App app{sim_config, ren_config};
+    
+    app.run();
 
     return EXIT_SUCCESS;
   } catch (std::exception const& e) {

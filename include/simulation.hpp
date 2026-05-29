@@ -18,7 +18,7 @@ class Simulation {
  public:
   Simulation(SimulationConfig const&);
 
-  void run();
+  void step();
 
   void velocityVerlet();
 
@@ -29,6 +29,8 @@ class Simulation {
   double totalEnergy() const;
 
   Vec2 computeAccelerations(Body const&);
+
+  int steps() const;
 };
 }  // namespace nc
 #endif

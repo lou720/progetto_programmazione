@@ -10,13 +10,11 @@ namespace nc {
 Simulation::Simulation(SimulationConfig const& c)
     : steps_{c.steps}, dt_{c.dt}, G_{c.G}, eps_{c.eps}, bodies_{c.bodies} {}
 
-void Simulation::run() {
-  for (int i = 0; i < steps_; ++i) {
-    velocityVerlet();
-    // std::cout << bodies_[0].pos().x << ' ' << bodies_[0].pos().y << '\n';
-    std::cout << potentialEnergy() << ' ' << kineticEnergy() << ' '
-              << totalEnergy() << '\n';
-  };
+void Simulation::step() {
+  velocityVerlet();
+  double k_en = kineticEnergy();
+  double u_en = potentialEnergy();
+  double t_en = totalEnergy();
 }
 
 void Simulation::velocityVerlet() {
@@ -88,5 +86,7 @@ Vec2 Simulation::computeAccelerations(Body const& bi) {
   }
   return a_new;
 }
+
+int Simulation::steps() const { return steps_; }
 
 }  // namespace nc

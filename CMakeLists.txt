@@ -43,6 +43,8 @@ add_executable(manybodysim
  src/simulation.cpp
  src/body.cpp
  src/vec2.cpp
+ src/app.cpp
+ src/renderer.cpp
  )
 # nel caso si usi SFML. analogamente per eventuali altre librerie
 

@@ -15,6 +15,8 @@ class App {
 
  public:
   App(SimulationConfig const&, RendererConfig const&);
+
+  void run();
 };
 }  // namespace nc
 
