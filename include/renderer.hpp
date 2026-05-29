@@ -14,6 +14,8 @@ class Renderer {
   unsigned int width_{};
   unsigned int height_{};
   unsigned int fps_{};
+  int phisics_substeps_{};
+  sf::View view_;
 
  public:
   Renderer(RendererConfig const&);
@@ -27,6 +29,8 @@ class Renderer {
   unsigned int height() const;
 
   unsigned int fps() const;
+
+  sf::View const& view() const;
 };
 }  // namespace nc
 

@@ -5,6 +5,7 @@
 #include "rendererConfig.hpp"
 #include "simulation.hpp"
 #include "simulationConfig.hpp"
+#include <SFML/Graphics.hpp>
 
 namespace nc {
 
@@ -12,6 +13,7 @@ class App {
  private:
   Simulation simulation_;
   Renderer renderer_;
+  sf::RenderWindow window_; 
 
  public:
   App(SimulationConfig const&, RendererConfig const&);

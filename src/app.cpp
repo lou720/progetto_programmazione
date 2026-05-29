@@ -1,46 +1,38 @@
 #include "app.hpp"
 
-#include <SFML/Graphics.hpp>
-#include <iostream>
-
 namespace nc {
+
 App::App(SimulationConfig const& s, RendererConfig const& r)
-    : simulation_{s}, renderer_{r} {}
+    : simulation_{s},
+      renderer_{r},
+      window_{sf::VideoMode(r.width, r.height), r.title} {
+  window_.setFramerateLimit(renderer_.fps());
+  window_.setView(renderer_.view());
+}
 
 void App::run() {
-  sf::RenderWindow window(sf::VideoMode(renderer_.width(), renderer_.height()),
-                          renderer_.title());
-
-  window.setFramerateLimit(renderer_.fps());
-
-  sf::View view;
-  view.setCenter(sf::Vector2f{0.f, 0.f});
-  view.setSize(sf::Vector2f{7.5f, 5.f});
-
-  window.setView(view);
-
   int current_step{1};
-  int physics_substep{15};
+  int physics_substep{10};
 
-  while (window.isOpen()) {
+  while (window_.isOpen()) {
     sf::Event event;
 
-    while (window.pollEvent(event)) {
-      if (event.type == sf::Event::Closed) window.close();
+    while (window_.pollEvent(event)) {
+      if (event.type == sf::Event::Closed) window_.close();
     }
     if (current_step == simulation_.steps()) {
-      window.close();
+      window_.close();
     }
 
     for (int i = 0; i < physics_substep; ++i) {
       simulation_.step();
     }
 
-    window.clear(sf::Color::Black);
+    window_.clear(sf::Color::Black);
 
-    renderer_.draw(window, simulation_.bodies());
+    renderer_.draw(window_, simulation_.bodies());
 
-    window.display();
+    window_.display();
 
     ++current_step;
   }
