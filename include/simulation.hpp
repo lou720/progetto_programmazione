@@ -28,7 +28,7 @@ class Simulation {
 
   double totalEnergy() const;
 
-  Vec2 computeAccelerations(Body const&);
+  Vec2 computeAccelerations(Body const&) const;
 
   int steps() const;
 
