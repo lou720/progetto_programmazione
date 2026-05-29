@@ -13,6 +13,7 @@ struct RendererConfig {
   unsigned int height{600};
   unsigned int fps{60};
   int physics_substeps{15};
+  float radius{0.1f};
 };
 
 }  // namespace nc

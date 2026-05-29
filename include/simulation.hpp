@@ -30,7 +30,7 @@ class Simulation {
 
   Vec2 computeAccelerations(Body const&) const;
 
-  int steps() const;
+  int maxSteps() const;
 
   std::vector<Body> const& bodies() const;
 };

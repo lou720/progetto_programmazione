@@ -3,9 +3,10 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <vector>
 
-#include "rendererConfig.hpp"
 #include "body.hpp"
+#include "rendererConfig.hpp"
 
 namespace nc {
 class Renderer {
@@ -14,8 +15,9 @@ class Renderer {
   unsigned int width_{};
   unsigned int height_{};
   unsigned int fps_{};
-  int phisics_substeps_{};
+  int physics_substeps_{};
   sf::View view_;
+  sf::CircleShape body_shape_;
 
  public:
   Renderer(RendererConfig const&);
@@ -29,6 +31,8 @@ class Renderer {
   unsigned int height() const;
 
   unsigned int fps() const;
+
+  int physicsSubsteps() const;
 
   sf::View const& view() const;
 };
