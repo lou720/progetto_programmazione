@@ -89,4 +89,5 @@ Vec2 Simulation::computeAccelerations(Body const& bi) {
 
 int Simulation::steps() const { return steps_; }
 
+std::vector<Body> const& Simulation::bodies() const { return bodies_; }
 }  // namespace nc

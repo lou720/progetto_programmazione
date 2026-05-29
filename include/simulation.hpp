@@ -31,6 +31,8 @@ class Simulation {
   Vec2 computeAccelerations(Body const&);
 
   int steps() const;
+
+  std::vector<Body> const& bodies() const;
 };
 }  // namespace nc
 #endif
