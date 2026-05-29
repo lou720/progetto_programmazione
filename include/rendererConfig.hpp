@@ -8,12 +8,12 @@ namespace nc {
 // i dati sono momentaneamente hardly-type
 // in futuro si potrà fare un file renderer.config
 struct RendererConfig {
-  std::string title{"N-Body Simulator"};
-  unsigned int width{800};
-  unsigned int height{600};
-  unsigned int fps{60};
-  int physics_substeps{15};
-  float radius{0.1f};
+  std::string title{};
+  unsigned int width{};
+  unsigned int height{};
+  unsigned int fps{};
+  int physics_substeps{};
+  float radius{};
 };
 
 }  // namespace nc

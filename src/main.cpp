@@ -11,8 +11,8 @@
 int main() {
   try {
     // Load automatico da config.txt
-    nc::SimulationConfig sim_config = nc::load();
-    nc::RendererConfig ren_config{};
+    nc::SimulationConfig sim_config = nc::loadSimulation("simulation.config");
+    nc::RendererConfig ren_config = nc::loadRenderer("renderer.config");
 
     nc::App app{sim_config, ren_config};
     
