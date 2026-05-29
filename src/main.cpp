@@ -10,7 +10,7 @@
 
 int main() {
   try {
-    // Load automatico da config.txt
+    // Load automatico 8-shape
     nc::SimulationConfig sim_config = nc::loadSimulation("simulation.config");
     nc::RendererConfig ren_config = nc::loadRenderer("renderer.config");
 
