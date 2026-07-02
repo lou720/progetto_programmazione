@@ -3,19 +3,26 @@
 #include <exception>
 #include <iostream>
 
-#include "configLoader.hpp"
-#include "simulationConfig.hpp"
 #include "app.hpp"
+#include "configLoader.hpp"
 #include "rendererConfig.hpp"
+#include "simulationConfig.hpp"
 
-int main() {
+int main(int argc, char** argv) {
   try {
-    // Load automatico 8-shape
-    nc::SimulationConfig sim_config = nc::loadSimulation("simulation-8-shape.config");
+    // controllo che ci sia solo un argomento
+    if (argc < 2) {
+      throw std::runtime_error{"no configuration file was given"};
+    } else if (argc > 2) {
+      throw std::runtime_error{"too many arguments"};
+    }
+
+    // Load shape da file configurazionale
+    nc::SimulationConfig sim_config = nc::loadSimulation(argv[1]);
     nc::RendererConfig ren_config = nc::loadRenderer("renderer.config");
 
     nc::App app{sim_config, ren_config};
-    
+
     app.run();
 
     return EXIT_SUCCESS;

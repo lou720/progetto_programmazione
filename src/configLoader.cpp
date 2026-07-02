@@ -17,7 +17,7 @@ SimulationConfig loadSimulation(std::string const& path) {
   std::ifstream file(path);
 
   if (!file.is_open()) {
-    throw std::runtime_error("Cannot open " + path + " \n");
+    throw std::runtime_error("Cannot open " + path);
   }
 
   std::string line{};
@@ -81,7 +81,7 @@ RendererConfig loadRenderer(std::string const& path) {
   std::ifstream file(path);
 
   if (!file.is_open()) {
-    throw std::runtime_error("Cannot open " + path + "\n");
+    throw std::runtime_error("Cannot open " + path);
   }
 
   std::string line{};
