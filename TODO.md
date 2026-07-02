@@ -17,10 +17,8 @@ sequenceDiagram
 ```
 
 ## TODO
-simulation.hpp - Metodi fondamentali:
 - quantità di moto totale
 - momento angolare totale
 - eventuale stampa/salvataggio dati
-- rappresentazione grafica con SFML
 - valutazione corretteza dati
 - randomi input di dati

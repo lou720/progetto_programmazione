@@ -19,7 +19,7 @@ int main(int argc, char** argv) {
 
     // Load shape da file configurazionale
     nc::SimulationConfig sim_config = nc::loadSimulation(argv[1]);
-    nc::RendererConfig ren_config = nc::loadRenderer("renderer.config");
+    nc::RendererConfig ren_config = nc::loadRenderer("config/renderer.config");
 
     nc::App app{sim_config, ren_config};
 
