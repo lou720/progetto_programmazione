@@ -1,0 +1,123 @@
+@startuml
+
+' =========================
+' CORE APPLICATION
+' =========================
+
+class App {
+  - Simulation simulation_
+  - Renderer renderer_
+  - RenderWindow window_
+
+  + run()
+}
+
+' =========================
+' SIMULATION (PHYSICS)
+' =========================
+
+class Simulation {
+  - int steps_
+  - int current_step_
+  - double dt_
+  - double G_
+  - double eps_
+  - std::vector<Body> bodies_
+
+  + step()
+  + velocityVerlet()
+  + computeAccelerations()
+
+  + kineticEnergy()
+  + potentialEnergy()
+  + totalEnergy()
+
+  + bodies()
+  + finished()
+}
+
+class Body {
+  - int id_
+  - Vec2 r_
+  - Vec2 v_
+  - Vec2 a_
+  - double mass_
+
+  + id()
+  + pos()
+  + vel()
+  + acc()
+  + mass()
+
+  + setPos()
+  + setVel()
+  + setAcc()
+}
+
+struct Vec2 {
+  + double x
+  + double y
+
+  + operator+=()
+  + operator-=()
+  + operator*=()
+  + norm()
+  + norm2()
+}
+
+struct SimulationConfig {
+  + int steps
+  + double dt
+  + double G
+  + double eps
+  + std::vector<Body> bodies
+}
+
+' =========================
+' RENDERING
+' =========================
+
+class Renderer {
+  - std::string title_
+  - unsigned int width_
+  - unsigned int height_
+  - unsigned int fps_
+  - int physics_substeps_
+  - sf::View view_
+  - sf::CircleShape body_shape_
+
+  + draw()
+
+  + title()
+  + width()
+  + height()
+  + fps()
+  + physicsSubsteps()
+  + view()
+}
+
+struct RendererConfig {
+  + std::string title
+  + unsigned int width
+  + unsigned int height
+  + unsigned int fps
+  + int physics_substeps
+  + float radius
+}
+
+' =========================
+' RELATIONSHIPS
+' =========================
+
+App -- Simulation
+App -- Renderer
+
+Simulation -- SimulationConfig
+Simulation -- Body
+
+Renderer -- RendererConfig
+
+SimulationConfig -- Body
+Body -- Vec2
+
+@enduml

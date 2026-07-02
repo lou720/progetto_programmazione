@@ -9,7 +9,7 @@
 
 namespace nc {
 
-class App {
+class App { 
  private:
   Simulation simulation_;
   Renderer renderer_;

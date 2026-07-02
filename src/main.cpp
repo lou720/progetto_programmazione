@@ -11,7 +11,7 @@
 int main() {
   try {
     // Load automatico 8-shape
-    nc::SimulationConfig sim_config = nc::loadSimulation("simulation.config");
+    nc::SimulationConfig sim_config = nc::loadSimulation("simulation-8-shape.config");
     nc::RendererConfig ren_config = nc::loadRenderer("renderer.config");
 
     nc::App app{sim_config, ren_config};
