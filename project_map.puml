@@ -21,6 +21,7 @@ class Simulation {
   - int current_step_
   - double dt_
   - double G_
+  - double E_
   - double eps_
   - std::vector<Body> bodies_
 

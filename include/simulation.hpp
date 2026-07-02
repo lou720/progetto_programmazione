@@ -14,6 +14,7 @@ class Simulation {
   double dt_{};
   double G_{};
   double eps_{};
+  double E_{};
   std::vector<Body> bodies_{};
 
  public:

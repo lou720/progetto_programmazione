@@ -12,10 +12,16 @@ Simulation::Simulation(SimulationConfig const& c)
   for (auto& b : bodies_) {
     b.setAcc(computeAccelerations(b));
   }
+  E_ = totalEnergy();
 }
 
 void Simulation::step() {
   velocityVerlet();
+
+  double E_new = totalEnergy();
+  if (std::abs(E_new - E_) > 1.e-6) {
+    throw std::runtime_error{"Energia non conservata"};
+  }
   ++current_step_;
 }
 
@@ -82,7 +88,7 @@ Vec2 Simulation::computeAccelerations(Body const& bi) const {
 
     double dist2 = dr.norm2() + eps_ * eps_;
 
-    double denom = std::pow(dist2, 1.5);  // inefficiente
+    double denom = std::pow(dist2, 1.5);
 
     a_new += G_ * bj.mass() / denom * dr;
   }
