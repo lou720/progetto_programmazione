@@ -20,5 +20,5 @@ sequenceDiagram
 - quantità di moto totale
 - momento angolare totale
 - eventuale stampa/salvataggio dati
-- valutazione corretteza dati
 - randomi input di dati
+- unificare i messaggi di errore
