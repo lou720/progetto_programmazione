@@ -45,6 +45,7 @@ add_executable(nbodysim
  src/vec2.cpp
  src/app.cpp
  src/renderer.cpp
+ src/utilities.cpp
  )
 # nel caso si usi SFML. analogamente per eventuali altre librerie
 

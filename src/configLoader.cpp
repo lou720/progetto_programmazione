@@ -7,6 +7,7 @@
 #include "body.hpp"
 #include "rendererConfig.hpp"
 #include "simulationConfig.hpp"
+#include "utilities.hpp"
 
 namespace nc {
 
@@ -40,35 +41,50 @@ SimulationConfig loadSimulation(std::string const& path) {
     ss >> key;
 
     if (key == "N") {
-      size_t N;
-      ss >> N;
-
-      sim_config.bodies.reserve(N);
+      std::string N_string;
+      ss >> N_string;
+      sim_config.bodies.reserve(stringToSize_t(N_string, key));
 
     } else if (key == "dt") {
-      ss >> sim_config.dt;
+      std::string dt_str{};
+      ss >> dt_str;
+      sim_config.dt = stringToDouble(dt_str, key);
 
     } else if (key == "steps") {
-      ss >> sim_config.steps;
+      std::string steps_str{};
+      ss >> steps_str;
+      sim_config.steps = stringToInt(steps_str, key);
 
     } else if (key == "G") {
-      ss >> sim_config.G;
+      std::string G_str{};
+      ss >> G_str;
+      sim_config.G = stringToInt(G_str, key);
 
     } else if (key == "eps") {
-      ss >> sim_config.eps;
+      std::string eps_str{};
+      ss >> eps_str;
+      sim_config.eps = stringToDouble(eps_str, key);
 
     } else if (key == "body") {
-      int id{};
-      double mass{};
-      double pos_x{};
-      double pos_y{};
-      double vel_x{};
-      double vel_y{};
+      std::string id_str{};
+      std::string mass_str{};
+      std::string pos_x_str{};
+      std::string pos_y_str{};
+      std::string vel_x_str{};
+      std::string vel_y_str{};
 
-      ss >> id >> mass >> pos_x >> pos_y >> vel_x >> vel_y;
+      ss >> id_str >> mass_str >> pos_x_str >> pos_y_str >> vel_x_str >>
+          vel_y_str;
+
+      std::string key_id = key + ' ' + id_str;
 
       sim_config.bodies.emplace_back(
-          Body{id, Vec2{pos_x, pos_y}, Vec2{vel_x, vel_y}, mass});
+          Body{stringToInt(id_str, key_id+" id"),
+               Vec2{stringToDouble(pos_x_str, key_id+" pos_x"),
+                    stringToDouble(pos_y_str, key_id+" pos_y")},
+               Vec2{stringToDouble(vel_x_str, key_id+" vel_x"),
+                    stringToDouble(vel_y_str, key_id+" vel_y")},
+               stringToDouble(mass_str, key_id+" mass")});
     }
   }
 
