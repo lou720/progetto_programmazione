@@ -66,8 +66,12 @@ if (BUILD_TESTING)
   add_executable(nbodysim.t 
   test/main.t.cpp
   test/utilities.t.cpp
+  # test/configLoader.t.cpp
+  # test/simulation.t.cpp
 
   src/utilities.cpp
+  # src/configLoader.cpp
+  # src/simulation.cpp
   )
 
   target_include_directories(nbodysim.t PRIVATE
