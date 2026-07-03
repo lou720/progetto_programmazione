@@ -60,11 +60,21 @@ target_link_libraries(nbodysim PRIVATE
 
 # il testing e' abilitato di default
 # per disabilitarlo, passare -DBUILD_TESTING=OFF a cmake durante la fase di configurazione
-# if (BUILD_TESTING)
+if (BUILD_TESTING)
 
-#   # aggiungi l'eseguibile progetto.t
-#   add_executable(progetto.t file.t.cpp)
-#   # aggiungi l'eseguibile progetto.t alla lista dei test
-#   add_test(NAME progetto.t COMMAND progetto.t)
+  # aggiungi l'eseguibile progetto.t
+  add_executable(nbodysim.t 
+  test/main.t.cpp
+  test/utilities.t.cpp
 
-# endif()
+  src/utilities.cpp
+  )
+
+  target_include_directories(nbodysim.t PRIVATE
+    ${CMAKE_SOURCE_DIR}
+    include
+)
+  # aggiungi l'eseguibile progetto.t alla lista dei test
+  add_test(NAME nbodysim.t COMMAND nbodysim.t)
+
+endif()
