@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.28)
-project(manybodysim VERSION 0.1.0)
+project(nbodysim VERSION 0.1.0)
 
 # abilita il supporto per i test, tra cui l'opzione BUILD_TESTING usata sotto
 include(CTest)
@@ -37,7 +37,7 @@ find_package(SFML 2.6 REQUIRED COMPONENTS graphics window system)
 
 # dichiara un eseguibile chiamato "progetto", prodotto a partire dai file sorgente indicati
 # sostituire "progetto" con il nome del proprio eseguibile e i file sorgente con i propri (con nomi sensati!)
-add_executable(manybodysim
+add_executable(nbodysim
  src/main.cpp 
  src/configLoader.cpp 
  src/simulation.cpp
@@ -48,8 +48,8 @@ add_executable(manybodysim
  )
 # nel caso si usi SFML. analogamente per eventuali altre librerie
 
-target_include_directories(manybodysim PRIVATE include)
-target_link_libraries(manybodysim PRIVATE 
+target_include_directories(nbodysim PRIVATE include)
+target_link_libraries(nbodysim PRIVATE 
         sfml-graphics
         sfml-window
         sfml-system 
