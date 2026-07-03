@@ -1,6 +1,7 @@
 #include "configLoader.hpp"
 
 #include <fstream>
+#include <map>
 #include <sstream>
 #include <stdexcept>
 
@@ -12,18 +13,23 @@
 namespace nc {
 
 SimulationConfig loadSimulation(std::string const& path) {
-  // non controlla la correttezza dei dati
+  std::map<std::string, bool> initialized_values{
+      {"N", false}, {"dt", false},  {"steps", false},
+      {"G", false}, {"eps", false}, {"body", false}};
+
   SimulationConfig sim_config{};
 
   std::ifstream file(path);
 
   if (!file.is_open()) {
-    throw std::runtime_error("Cannot open " + path);
+    throw std::runtime_error("File non aperto: " + path);
   }
 
   std::string line{};
+  int nline{};
 
   while (std::getline(file, line)) {
+    ++nline;
     // righe vuote/commenti
     if (line.empty() || line[0] == '#') {
       continue;
@@ -35,6 +41,10 @@ SimulationConfig loadSimulation(std::string const& path) {
       line = line.substr(0, pos);
     }
 
+    if (line.find_first_not_of(" ") == std::string::npos) {
+      continue;
+    }
+
     std::stringstream ss(line);
 
     std::string key{};
@@ -43,27 +53,52 @@ SimulationConfig loadSimulation(std::string const& path) {
     if (key == "N") {
       std::string N_string;
       ss >> N_string;
-      sim_config.bodies.reserve(stringToSize_t(N_string, key));
+      try {
+        sim_config.bodies.reserve(stringToSize_t(N_string, key));
+        initialized_values[key] = true;
+      } catch (std::runtime_error const& e) {
+        throw std::runtime_error{"Riga " + std::to_string(nline) + e.what()};
+      }
 
     } else if (key == "dt") {
       std::string dt_str{};
       ss >> dt_str;
-      sim_config.dt = stringToDouble(dt_str, key);
+      try {
+        sim_config.dt = stringToDouble(dt_str, key);
+        initialized_values[key] = true;
+      } catch (std::runtime_error const& e) {
+        throw std::runtime_error{"Riga " + std::to_string(nline) + e.what()};
+      }
 
     } else if (key == "steps") {
       std::string steps_str{};
       ss >> steps_str;
-      sim_config.steps = stringToInt(steps_str, key);
+      try {
+        sim_config.steps = stringToInt(steps_str, key);
+        initialized_values[key] = true;
+      } catch (std::runtime_error const& e) {
+        throw std::runtime_error{"Riga " + std::to_string(nline) + e.what()};
+      }
 
     } else if (key == "G") {
       std::string G_str{};
       ss >> G_str;
-      sim_config.G = stringToInt(G_str, key);
+      try {
+        sim_config.G = stringToInt(G_str, key);
+        initialized_values[key] = true;
+      } catch (std::runtime_error const& e) {
+        throw std::runtime_error{"Riga " + std::to_string(nline) + e.what()};
+      }
 
     } else if (key == "eps") {
       std::string eps_str{};
       ss >> eps_str;
-      sim_config.eps = stringToDouble(eps_str, key);
+      try {
+        sim_config.eps = stringToDouble(eps_str, key);
+        initialized_values[key] = true;
+      } catch (std::runtime_error const& e) {
+        throw std::runtime_error{"Riga " + std::to_string(nline) + e.what()};
+      }
 
     } else if (key == "body") {
       std::string id_str{};
@@ -75,16 +110,29 @@ SimulationConfig loadSimulation(std::string const& path) {
 
       ss >> id_str >> mass_str >> pos_x_str >> pos_y_str >> vel_x_str >>
           vel_y_str;
+      try {
+        sim_config.bodies.emplace_back(
+            Body{stringToInt(id_str, key),
+                 Vec2{stringToDouble(pos_x_str, key),
+                      stringToDouble(pos_y_str, key)},
+                 Vec2{stringToDouble(vel_x_str, key),
+                      stringToDouble(vel_y_str, key)},
+                 stringToDouble(mass_str, key)});
+        initialized_values[key] = true;
+      } catch (std::runtime_error const& e) {
+        throw std::runtime_error{"Riga " + std::to_string(nline) + " " + e.what()};
+      }
 
-      std::string key_id = key + ' ' + id_str;
+    } else {
+      throw std::runtime_error{std::string{"Riga " + std::to_string(nline) +
+                                           " key non riconosciuta: " + key}};
+    }
+  }
 
-      sim_config.bodies.emplace_back(
-          Body{stringToInt(id_str, key_id+" id"),
-               Vec2{stringToDouble(pos_x_str, key_id+" pos_x"),
-                    stringToDouble(pos_y_str, key_id+" pos_y")},
-               Vec2{stringToDouble(vel_x_str, key_id+" vel_x"),
-                    stringToDouble(vel_y_str, key_id+" vel_y")},
-               stringToDouble(mass_str, key_id+" mass")});
+  for (auto const& p : initialized_values) {
+    if (p.second == false) {
+      throw std::runtime_error{"Riga " + std::to_string(nline) +
+                               " key non inizializzata: " + p.first};
     }
   }
 
@@ -97,7 +145,7 @@ RendererConfig loadRenderer(std::string const& path) {
   std::ifstream file(path);
 
   if (!file.is_open()) {
-    throw std::runtime_error("Cannot open " + path);
+    throw std::runtime_error("File non aperto: " + path);
   }
 
   std::string line{};
