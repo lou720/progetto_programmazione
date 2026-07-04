@@ -24,19 +24,18 @@ class Simulation {
 
   void velocityVerlet();
 
-  double kineticEnergy() const;
-
-  double potentialEnergy() const;
-
-  double totalEnergy() const;
-
-  // void energyConserved() const;
-
-  Vec2 computeAccelerations(Body const&) const;
-
   std::vector<Body> const& bodies() const;
 
   bool finished() const;
 };
+
+double kineticEnergy(std::vector<Body> const&);
+
+double potentialEnergy(std::vector<Body> const&, double G, double eps);
+
+double totalEnergy(std::vector<Body> const&, double G, double eps);
+
+Vec2 computeAccelerations(std::vector<Body> const&, Body const&, double G, double eps);
+
 }  // namespace nc
 #endif

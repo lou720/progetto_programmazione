@@ -10,15 +10,15 @@ namespace nc {
 Simulation::Simulation(SimulationConfig const& c)
     : steps_{c.steps}, dt_{c.dt}, G_{c.G}, eps_{c.eps}, bodies_{c.bodies} {
   for (auto& b : bodies_) {
-    b.setAcc(computeAccelerations(b));
+    b.setAcc(computeAccelerations(bodies_, b, G_, eps_));
   }
-  E_ = totalEnergy();
+  E_ = totalEnergy(bodies_, G_, eps_);
 }
 
 void Simulation::step() {
   velocityVerlet();
 
-  double E_new = totalEnergy();
+  double E_new = totalEnergy(bodies_, G_, eps_);
   double err_rel = std::abs(E_new - E_) / std::abs(E_);
   if (err_rel > 5.e-2) {
     throw std::runtime_error{
@@ -44,7 +44,7 @@ void Simulation::velocityVerlet() {
   v_new_vec.reserve(bodies_.size());
 
   for (auto& b : bodies_) {
-    Vec2 a_new = computeAccelerations(b);
+    Vec2 a_new = computeAccelerations(bodies_, b, G_, eps_);
     Vec2 v_new = b.vel() + 0.5 * (b.acc() + a_new) * dt_;
 
     a_new_vec.push_back(a_new);
@@ -57,51 +57,54 @@ void Simulation::velocityVerlet() {
   }
 }
 
-double Simulation::kineticEnergy() const {
-  double sum_k_en{};
-  for (auto const& b : bodies_) {
-    sum_k_en += .5 * b.mass() * b.vel().norm2();
-  }
-  return sum_k_en;
-}
+std::vector<Body> const& Simulation::bodies() const { return bodies_; }
 
-double Simulation::potentialEnergy() const {
-  double sum_u_en{};
-  for (size_t i = 0; i < bodies_.size(); ++i) {
-    // size_t usato per evitare conversione implicita
-    for (size_t j = i + 1; j < bodies_.size(); ++j) {
-      auto dr = bodies_[i].pos() - bodies_[j].pos();
-      double denom = std::sqrt(dr.norm2() + eps_ * eps_);
-      sum_u_en -= G_ * bodies_[i].mass() * bodies_[j].mass() / denom;
-    }
-  }
-  return sum_u_en;
-}
+bool Simulation::finished() const { return current_step_ >= steps_; }
 
-double Simulation::totalEnergy() const {
-  return kineticEnergy() + potentialEnergy();
-}
+/*============================================================*/
 
-Vec2 Simulation::computeAccelerations(Body const& bi) const {
+Vec2 computeAccelerations(std::vector<Body> const& bodies, Body const& bi,
+                          double G, double eps) {
   Vec2 a_new{};
-  for (auto const& bj : bodies_) {
+  for (auto const& bj : bodies) {
     if (bi.id() == bj.id()) {
       continue;
     }
 
     Vec2 dr = bj.pos() - bi.pos();
 
-    double dist2 = dr.norm2() + eps_ * eps_;
+    double dist2 = dr.norm2() + eps * eps;
 
     double denom = std::pow(dist2, 1.5);
 
-    a_new += G_ * bj.mass() / denom * dr;
+    a_new += G * bj.mass() / denom * dr;
   }
   return a_new;
 }
 
-std::vector<Body> const& Simulation::bodies() const { return bodies_; }
+double kineticEnergy(std::vector<Body> const& bodies) {
+  double sum_k_en{};
+  for (auto const& b : bodies) {
+    sum_k_en += .5 * b.mass() * b.vel().norm2();
+  }
+  return sum_k_en;
+}
 
-bool Simulation::finished() const { return current_step_ >= steps_; }
+double potentialEnergy(std::vector<Body> const& bodies, double G, double eps) {
+  double sum_u_en{};
+  for (size_t i = 0; i < bodies.size(); ++i) {
+    // size_t usato per evitare conversione implicita
+    for (size_t j = i + 1; j < bodies.size(); ++j) {
+      auto dr = bodies[i].pos() - bodies[j].pos();
+      double denom = std::sqrt(dr.norm2() + eps * eps);
+      sum_u_en -= G * bodies[i].mass() * bodies[j].mass() / denom;
+    }
+  }
+  return sum_u_en;
+}
+
+double totalEnergy(std::vector<Body> const& bodies, double G, double eps) {
+  return kineticEnergy(bodies) + potentialEnergy(bodies, G, eps);
+}
 
 }  // namespace nc

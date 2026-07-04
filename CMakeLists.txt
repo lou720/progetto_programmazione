@@ -67,13 +67,13 @@ if (BUILD_TESTING)
   test/main.t.cpp
   test/utilities.t.cpp
   test/configLoader.t.cpp
-  # test/simulation.t.cpp
+  test/simulation.t.cpp
   test/vec2.t.cpp
   test/body.t.cpp
 
   src/utilities.cpp
   src/configLoader.cpp
-  # src/simulation.cpp
+  src/simulation.cpp
   src/vec2.cpp
   src/body.cpp
   )

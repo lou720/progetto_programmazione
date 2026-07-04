@@ -46,7 +46,6 @@ TEST_CASE("Function loadSimulation - bad_4") {
 
 TEST_CASE("Function loadRenderer - valid_1") {
   nc::RendererConfig ren_c = nc::loadRenderer("test/config_test/renderer_valid_1.config");
-  // CHECK(ren_c.title == "N-Body Simulator");
   CHECK(ren_c.width == 800);
   CHECK(ren_c.height == 600);
   CHECK(ren_c.fps == 60);

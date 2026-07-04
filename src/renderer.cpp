@@ -8,8 +8,8 @@ Renderer::Renderer(RendererConfig const& r)
       fps_{r.fps},
       physics_substeps_{r.physics_substeps},
       body_shape_{r.radius} {
-  view_.setCenter(sf::Vector2f{0.f, 0.f});
-  view_.setSize(sf::Vector2f{7.5f, 5.f});
+  view_.setCenter({0., 0.});
+  view_.setSize({7.5, 5.});
 
   body_shape_.setOrigin(r.radius, r.radius);
   body_shape_.setFillColor(sf::Color::White);
@@ -17,7 +17,8 @@ Renderer::Renderer(RendererConfig const& r)
 
 void Renderer::draw(sf::RenderWindow& w, std::vector<Body> const& v_bodies) {
   for (auto const& b : v_bodies) {
-    body_shape_.setPosition(sf::Vector2f{b.pos().x, b.pos().y});
+    body_shape_.setPosition(
+        {static_cast<float>(b.pos().x), static_cast<float>(b.pos().y)});
     w.draw(body_shape_);
   }
 }
