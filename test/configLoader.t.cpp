@@ -7,7 +7,7 @@ TEST_CASE("Function loadSimulation - valid_1") {
       nc::loadSimulation("test/config_test/simulation_valid_1.config");
   CHECK(sim_c.dt == doctest::Approx(.1));
   CHECK(sim_c.steps == 1);
-  CHECK(sim_c.G == 1);
+  CHECK(sim_c.G == 1.);
   CHECK(sim_c.eps == doctest::Approx(.1));
   CHECK(sim_c.bodies.size() == 1);
   CHECK(sim_c.bodies[0].id() == 1);
@@ -31,10 +31,15 @@ TEST_CASE("Function loadSimulation - bad_1") {
 TEST_CASE("Function loadSimulation - bad_2") {
   CHECK_THROWS_WITH(
       nc::loadSimulation("test/config_test/simulation_bad_2.config"),
-      "Riga 9 key non inizializzata: G");
+      "Key non inizializzata: G");
 }
 
 TEST_CASE("Function loadSimulation - bad_3") {
   CHECK_THROWS_WITH(nc::loadSimulation("test/config_test/simulation_bad_3.config"),
 "Riga 10 valore in input non valido: body");
+}
+
+TEST_CASE("Function loadSimulation - bad_4") {
+  CHECK_THROWS_WITH(nc::loadSimulation("test/config_test/simulation_bad_4.config"),
+  "Riga 4 valore in input non valido: steps");
 }

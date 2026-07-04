@@ -16,6 +16,8 @@ SimulationConfig loadSimulation(std::string const& path) {
   std::map<std::string, bool> initialized_values{
       {"N", false}, {"dt", false},  {"steps", false},
       {"G", false}, {"eps", false}, {"body", false}};
+  
+  size_t expetetd_size{};
 
   SimulationConfig sim_config{};
 
@@ -54,10 +56,11 @@ SimulationConfig loadSimulation(std::string const& path) {
       std::string N_string;
       ss >> N_string;
       try {
-        sim_config.bodies.reserve(stringToSize_t(N_string, key));
+        expetetd_size = stringToSize_t(N_string, key);
+        sim_config.bodies.reserve(expetetd_size);
         initialized_values[key] = true;
       } catch (std::runtime_error const& e) {
-        throw std::runtime_error{"Riga " + std::to_string(nline) + e.what()};
+        throw std::runtime_error{"Riga " + std::to_string(nline) + " " + e.what()};
       }
 
     } else if (key == "dt") {
@@ -67,7 +70,7 @@ SimulationConfig loadSimulation(std::string const& path) {
         sim_config.dt = stringToDouble(dt_str, key);
         initialized_values[key] = true;
       } catch (std::runtime_error const& e) {
-        throw std::runtime_error{"Riga " + std::to_string(nline) + e.what()};
+        throw std::runtime_error{"Riga " + std::to_string(nline) + " " + e.what()};
       }
 
     } else if (key == "steps") {
@@ -77,17 +80,17 @@ SimulationConfig loadSimulation(std::string const& path) {
         sim_config.steps = stringToInt(steps_str, key);
         initialized_values[key] = true;
       } catch (std::runtime_error const& e) {
-        throw std::runtime_error{"Riga " + std::to_string(nline) + e.what()};
+        throw std::runtime_error{"Riga " + std::to_string(nline) + " " + e.what()};
       }
 
     } else if (key == "G") {
       std::string G_str{};
       ss >> G_str;
       try {
-        sim_config.G = stringToInt(G_str, key);
+        sim_config.G = stringToDouble(G_str, key);
         initialized_values[key] = true;
       } catch (std::runtime_error const& e) {
-        throw std::runtime_error{"Riga " + std::to_string(nline) + e.what()};
+        throw std::runtime_error{"Riga " + std::to_string(nline) + " " + e.what()};
       }
 
     } else if (key == "eps") {
@@ -97,7 +100,7 @@ SimulationConfig loadSimulation(std::string const& path) {
         sim_config.eps = stringToDouble(eps_str, key);
         initialized_values[key] = true;
       } catch (std::runtime_error const& e) {
-        throw std::runtime_error{"Riga " + std::to_string(nline) + e.what()};
+        throw std::runtime_error{"Riga " + std::to_string(nline) + " " + e.what()};
       }
 
     } else if (key == "body") {
@@ -131,9 +134,12 @@ SimulationConfig loadSimulation(std::string const& path) {
 
   for (auto const& p : initialized_values) {
     if (p.second == false) {
-      throw std::runtime_error{"Riga " + std::to_string(nline) +
-                               " key non inizializzata: " + p.first};
+      throw std::runtime_error{"Key non inizializzata: " + p.first};
     }
+  }
+
+  if (expetetd_size != sim_config.bodies.size()) {
+    throw std::runtime_error{"Il numero di corpi dichiarati non corrisponde a quello dei corpi definiti"};
   }
 
   return sim_config;

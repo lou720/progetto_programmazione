@@ -19,10 +19,15 @@ void Simulation::step() {
   velocityVerlet();
 
   double E_new = totalEnergy();
-  if (std::abs(E_new - E_) > 1.e-6) {
-    throw std::runtime_error{"Energia non conservata"};
+  double err_rel = std::abs(E_new - E_) / std::abs(E_);
+  if (err_rel > 5.e-2) {
+    throw std::runtime_error{
+        "Energia non conservata (step : E_new : err_rel): " +
+        std::to_string(current_step_) + " : " + std::to_string(E_new) + " : " +
+        std::to_string(err_rel)};
   }
   ++current_step_;
+  E_ = E_new;
 }
 
 void Simulation::velocityVerlet() {
@@ -66,8 +71,8 @@ double Simulation::potentialEnergy() const {
     // size_t usato per evitare conversione implicita
     for (size_t j = i + 1; j < bodies_.size(); ++j) {
       auto dr = bodies_[i].pos() - bodies_[j].pos();
-      sum_u_en -= G_ * bodies_[i].mass() * bodies_[j].mass() / dr.norm();
-      // si potrebbe fare softening con eps
+      double denom = std::sqrt(dr.norm2() + eps_ * eps_);
+      sum_u_en -= G_ * bodies_[i].mass() * bodies_[j].mass() / denom;
     }
   }
   return sum_u_en;

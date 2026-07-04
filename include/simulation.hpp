@@ -30,6 +30,8 @@ class Simulation {
 
   double totalEnergy() const;
 
+  // void energyConserved() const;
+
   Vec2 computeAccelerations(Body const&) const;
 
   std::vector<Body> const& bodies() const;
