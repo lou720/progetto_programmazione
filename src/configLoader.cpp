@@ -16,7 +16,7 @@ SimulationConfig loadSimulation(std::string const& path) {
   std::map<std::string, bool> initialized_values{
       {"N", false}, {"dt", false},  {"steps", false},
       {"G", false}, {"eps", false}, {"body", false}};
-  
+
   size_t expetetd_size{};
 
   SimulationConfig sim_config{};
@@ -53,14 +53,15 @@ SimulationConfig loadSimulation(std::string const& path) {
     ss >> key;
 
     if (key == "N") {
-      std::string N_string;
-      ss >> N_string;
+      std::string N_str;
+      ss >> N_str;
       try {
-        expetetd_size = stringToSize_t(N_string, key);
+        expetetd_size = stringToSize_t(N_str, key);
         sim_config.bodies.reserve(expetetd_size);
         initialized_values[key] = true;
       } catch (std::runtime_error const& e) {
-        throw std::runtime_error{"Riga " + std::to_string(nline) + " " + e.what()};
+        throw std::runtime_error{"Riga " + std::to_string(nline) + " " +
+                                 e.what()};
       }
 
     } else if (key == "dt") {
@@ -70,7 +71,8 @@ SimulationConfig loadSimulation(std::string const& path) {
         sim_config.dt = stringToDouble(dt_str, key);
         initialized_values[key] = true;
       } catch (std::runtime_error const& e) {
-        throw std::runtime_error{"Riga " + std::to_string(nline) + " " + e.what()};
+        throw std::runtime_error{"Riga " + std::to_string(nline) + " " +
+                                 e.what()};
       }
 
     } else if (key == "steps") {
@@ -80,7 +82,8 @@ SimulationConfig loadSimulation(std::string const& path) {
         sim_config.steps = stringToInt(steps_str, key);
         initialized_values[key] = true;
       } catch (std::runtime_error const& e) {
-        throw std::runtime_error{"Riga " + std::to_string(nline) + " " + e.what()};
+        throw std::runtime_error{"Riga " + std::to_string(nline) + " " +
+                                 e.what()};
       }
 
     } else if (key == "G") {
@@ -90,7 +93,8 @@ SimulationConfig loadSimulation(std::string const& path) {
         sim_config.G = stringToDouble(G_str, key);
         initialized_values[key] = true;
       } catch (std::runtime_error const& e) {
-        throw std::runtime_error{"Riga " + std::to_string(nline) + " " + e.what()};
+        throw std::runtime_error{"Riga " + std::to_string(nline) + " " +
+                                 e.what()};
       }
 
     } else if (key == "eps") {
@@ -100,7 +104,8 @@ SimulationConfig loadSimulation(std::string const& path) {
         sim_config.eps = stringToDouble(eps_str, key);
         initialized_values[key] = true;
       } catch (std::runtime_error const& e) {
-        throw std::runtime_error{"Riga " + std::to_string(nline) + " " + e.what()};
+        throw std::runtime_error{"Riga " + std::to_string(nline) + " " +
+                                 e.what()};
       }
 
     } else if (key == "body") {
@@ -123,12 +128,13 @@ SimulationConfig loadSimulation(std::string const& path) {
                  stringToDouble(mass_str, key)});
         initialized_values[key] = true;
       } catch (std::runtime_error const& e) {
-        throw std::runtime_error{"Riga " + std::to_string(nline) + " " + e.what()};
+        throw std::runtime_error{"Riga " + std::to_string(nline) + " " +
+                                 e.what()};
       }
 
     } else {
-      throw std::runtime_error{std::string{"Riga " + std::to_string(nline) +
-                                           " key non riconosciuta: " + key}};
+      throw std::runtime_error{"Riga " + std::to_string(nline) +
+                               " key non riconosciuta: " + key};
     }
   }
 
@@ -139,13 +145,24 @@ SimulationConfig loadSimulation(std::string const& path) {
   }
 
   if (expetetd_size != sim_config.bodies.size()) {
-    throw std::runtime_error{"Il numero di corpi dichiarati non corrisponde a quello dei corpi definiti"};
+    throw std::runtime_error{
+        "Il numero di corpi dichiarati non corrisponde a quello dei corpi "
+        "definiti"};
   }
 
   return sim_config;
 }
 
+/*=====================================================*/
+
 RendererConfig loadRenderer(std::string const& path) {
+  std::map<std::string, bool> initialized_values{{"title", false},
+                                                 {"width", false},
+                                                 {"height", false},
+                                                 {"fps", false},
+                                                 {"physics_substeps", false},
+                                                 {"radius", false}};
+
   RendererConfig ren_config{};
 
   std::ifstream file(path);
@@ -155,8 +172,10 @@ RendererConfig loadRenderer(std::string const& path) {
   }
 
   std::string line{};
+  int nline{};
 
   while (std::getline(file, line)) {
+    ++nline;
     // righe vuote/commenti
     if (line.empty() || line[0] == '#') {
       continue;
@@ -168,28 +187,93 @@ RendererConfig loadRenderer(std::string const& path) {
       line = line.substr(0, pos);
     }
 
+    if (line.find_first_not_of(" ") == std::string::npos) {
+      continue;
+    }
+
     std::stringstream ss(line);
 
     std::string key{};
     ss >> key;
 
     if (key == "title") {
-      std::getline(ss, ren_config.title);
+      try {
+        std::getline(ss, ren_config.title);
+        initialized_values[key] = true;
+      } catch (std::runtime_error const& e) {
+        throw std::runtime_error{"Riga " + std::to_string(nline) + " " +
+                                 e.what()};
+      }
 
     } else if (key == "width") {
-      ss >> ren_config.width;
+      // ss >> ren_config.width;
+      std::string width_str{};
+      ss >> width_str;
+      try {
+        ren_config.width = nc::stringToInt(width_str, key);
+        initialized_values[key] = true;
+      } catch (std::runtime_error const& e) {
+        throw std::runtime_error{"Riga " + std::to_string(nline) + " " +
+                                 e.what()};
+      }
 
     } else if (key == "height") {
-      ss >> ren_config.height;
+      // ss >> ren_config.height;
+      std::string height_str{};
+      ss >> height_str;
+      try {
+        ren_config.height = nc::stringToInt(height_str, key);
+        initialized_values[key] = true;
+      } catch (std::runtime_error const& e) {
+        throw std::runtime_error{"Riga " + std::to_string(nline) + " " +
+                                 e.what()};
+      }
 
     } else if (key == "fps") {
-      ss >> ren_config.fps;
+      // ss >> ren_config.fps;
+      std::string fps_str{};
+      ss >> fps_str;
+      try {
+        ren_config.fps = nc::stringToInt(fps_str, key);
+        initialized_values[key] = true;
+      } catch (std::runtime_error const& e) {
+        throw std::runtime_error{"Riga " + std::to_string(nline) + " " +
+                                 e.what()};
+      }
 
     } else if (key == "physics_substeps") {
-      ss >> ren_config.physics_substeps;
+      // ss >> ren_config.physics_substeps;
+      std::string physics_substeps_str{};
+      ss >> physics_substeps_str;
+      try {
+        ren_config.physics_substeps =
+            nc::stringToInt(physics_substeps_str, key);
+        initialized_values[key] = true;
+      } catch (std::runtime_error const& e) {
+        throw std::runtime_error{"Riga " + std::to_string(nline) + " " +
+                                 e.what()};
+      }
 
     } else if (key == "radius") {
-      ss >> ren_config.radius;
+      // ss >> ren_config.radius;
+      std::string radius_str{};
+      ss >> radius_str;
+      try {
+        ren_config.radius = nc::stringToDouble(radius_str, key);
+        initialized_values[key] = true;
+      } catch (std::runtime_error const& e) {
+        throw std::runtime_error{"Riga " + std::to_string(nline) + " " +
+                                 e.what()};
+      }
+    } else {
+      throw std::runtime_error{"Riga " + std::to_string(nline) +
+                               " key non riconosciuta: " + key};
+    }
+  }
+
+  for (auto const& p : initialized_values) {
+    if (p.second == false) {
+      throw std::runtime_error{"Key non inizializzata: " + p.first};
     }
   }
 
