@@ -43,3 +43,14 @@ TEST_CASE("Function loadSimulation - bad_4") {
   CHECK_THROWS_WITH(nc::loadSimulation("test/config_test/simulation_bad_4.config"),
   "Riga 4 valore in input non valido: steps");
 }
+
+TEST_CASE("Funcion loadRenderer - valid_1") {
+  nc::RendererConfig ren_c = nc::loadRenderer("test/config_test/renderer_valid_1.config");
+  CHECK(ren_c.title == "N-Body Simulator");
+  CHECK(ren_c.width == 800);
+  CHECK(ren_c.height == 600);
+  CHECK(ren_c.fps == 60);
+  CHECK(ren_c.physics_substeps == 15);
+  CHECK(ren_c.velocity_substeps == doctest::Approx(15000));
+  CHECK(ren_c.radius == doctest::Approx(0.1f));
+}

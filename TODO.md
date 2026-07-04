@@ -22,3 +22,4 @@ sequenceDiagram
 - eventuale stampa/salvataggio dati
 - randomi input di dati
 - unificare i messaggi di errore
+- spostare metodi di simulation come funzioni non membro
