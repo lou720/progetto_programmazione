@@ -161,7 +161,7 @@ RendererConfig loadRenderer(std::string const& path) {
                                                  {"width", false},
                                                  {"height", false},
                                                  {"fps", false},
-                                                 {"physics_substeps", false},
+                                                 {"physics_substeps_per_second", false},
                                                  {"radius", false}};
 
   RendererConfig ren_config{};
@@ -238,12 +238,12 @@ RendererConfig loadRenderer(std::string const& path) {
         throw std::runtime_error{errorMessage(path, nline) + e.what()};
       }
 
-    } else if (key == "physics_substeps") {
+    } else if (key == "physics_substeps_per_second") {
       std::string physics_substeps_str{};
       ss >> physics_substeps_str;
       try {
-        ren_config.physics_substeps =
-            nc::stringToInt(physics_substeps_str, key);
+        ren_config.physics_substeps_per_second =
+            nc::stringToDouble(physics_substeps_str, key);
         initialized_values[key] = true;
       } catch (std::runtime_error const& e) {
         throw std::runtime_error{errorMessage(path, nline) + e.what()};

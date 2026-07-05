@@ -26,6 +26,8 @@ class Simulation {
 
   std::vector<Body> const& bodies() const;
 
+  double dt() const;
+
   bool finished() const;
 };
 

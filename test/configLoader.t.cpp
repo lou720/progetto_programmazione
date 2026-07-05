@@ -53,7 +53,7 @@ TEST_CASE("Function loadRenderer - valid_1") {
   CHECK(ren_c.width == 800);
   CHECK(ren_c.height == 600);
   CHECK(ren_c.fps == 60);
-  CHECK(ren_c.physics_substeps == 15);
+  CHECK(ren_c.physics_substeps_per_second == 15);
   CHECK(ren_c.radius == doctest::Approx(0.1f));
 }
 

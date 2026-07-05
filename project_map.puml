@@ -92,7 +92,7 @@ class Renderer {
   + width()
   + height()
   + fps()
-  + physicsSubsteps()
+  + physicsSubstepsPerSecond()
   + view()
 }
 
@@ -101,7 +101,7 @@ struct RendererConfig {
   + unsigned int width
   + unsigned int height
   + unsigned int fps
-  + int physics_substeps
+  + int physics_substeps_per_second
   + float radius
 }
 

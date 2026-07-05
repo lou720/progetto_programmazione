@@ -21,7 +21,7 @@ void App::run() {
       window_.close();
     }
 
-    for (int i = 0; i < renderer_.physicsSubsteps(); ++i) {
+    for (int i = 0; i < renderer_.physicsSubstepsPerSecond() / simulation_.dt(); ++i) {
       simulation_.step();
     }
 

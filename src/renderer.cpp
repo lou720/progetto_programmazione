@@ -6,7 +6,7 @@ Renderer::Renderer(RendererConfig const& r)
       width_{r.width},
       height_{r.height},
       fps_{r.fps},
-      physics_substeps_{r.physics_substeps},
+      physics_substeps_{r.physics_substeps_per_second},
       body_shape_{r.radius} {
   view_.setCenter({0., 0.});
   view_.setSize({7.5, 5.});
@@ -31,7 +31,7 @@ unsigned int Renderer::height() const { return height_; }
 
 unsigned int Renderer::fps() const { return fps_; }
 
-int Renderer::physicsSubsteps() const { return physics_substeps_; }
+double Renderer::physicsSubstepsPerSecond() const { return physics_substeps_; }
 
 sf::View const& Renderer::view() const { return view_; }
 

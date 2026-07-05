@@ -59,6 +59,8 @@ void Simulation::velocityVerlet() {
 
 std::vector<Body> const& Simulation::bodies() const { return bodies_; }
 
+double Simulation::dt() const { return dt_; }
+
 bool Simulation::finished() const { return current_step_ >= steps_; }
 
 /*============================================================*/
