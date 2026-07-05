@@ -2,16 +2,22 @@
 
 namespace nc {
 
-App::App(SimulationConfig const& s, RendererConfig const& r)
+App::App(SimulationConfig const& s, RendererConfig const& r, double time_scale)
     : simulation_{s},
       renderer_{r},
+      time_scale_{time_scale},
       window_{sf::VideoMode(r.width, r.height), r.title} {
   window_.setFramerateLimit(renderer_.fps());
   window_.setView(renderer_.view());
 }
 
 void App::run() {
+  sf::Clock clock;
+  double accumulator{};
   while (window_.isOpen()) {
+    double elapsed = clock.restart().asSeconds();
+    accumulator += elapsed * time_scale_;
+
     sf::Event event;
 
     while (window_.pollEvent(event)) {
@@ -21,8 +27,9 @@ void App::run() {
       window_.close();
     }
 
-    for (int i = 0; i < renderer_.physicsSubstepsPerSecond() / simulation_.dt(); ++i) {
+    while (accumulator >= simulation_.dt()) {
       simulation_.step();
+      accumulator -= simulation_.dt();
     }
 
     window_.clear(sf::Color::Black);

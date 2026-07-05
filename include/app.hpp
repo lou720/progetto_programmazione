@@ -13,10 +13,11 @@ class App {
  private:
   Simulation simulation_;
   Renderer renderer_;
+  double time_scale_;
   sf::RenderWindow window_; 
 
  public:
-  App(SimulationConfig const&, RendererConfig const&);
+  App(SimulationConfig const&, RendererConfig const&, double);
 
   void run();
 };
