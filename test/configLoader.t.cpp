@@ -25,23 +25,27 @@ TEST_CASE("Function loadSimulation - nonExistingFile") {
 TEST_CASE("Function loadSimulation - bad_1") {
   CHECK_THROWS_WITH(
       nc::loadSimulation("test/config_test/simulation_bad_1.config"),
-      "Riga 12 key non riconosciuta: g");
+      "File test/config_test/simulation_bad_1.config   riga 12   key non riconosciuta: g");
 }
 
 TEST_CASE("Function loadSimulation - bad_2") {
   CHECK_THROWS_WITH(
       nc::loadSimulation("test/config_test/simulation_bad_2.config"),
-      "Key non inizializzata: G");
+      "File test/config_test/simulation_bad_2.config   key non inizializzata: G");
 }
 
 TEST_CASE("Function loadSimulation - bad_3") {
   CHECK_THROWS_WITH(nc::loadSimulation("test/config_test/simulation_bad_3.config"),
-"Riga 10 valore in input non valido: body");
+"File test/config_test/simulation_bad_3.config   riga 10   valore in input non valido: body");
 }
 
 TEST_CASE("Function loadSimulation - bad_4") {
   CHECK_THROWS_WITH(nc::loadSimulation("test/config_test/simulation_bad_4.config"),
-  "Riga 4 valore in input non valido: steps");
+  "File test/config_test/simulation_bad_4.config   riga 4   valore in input non valido: steps");
+}
+
+TEST_CASE("Function loadSimulation - bad_5") {
+  CHECK_THROWS(nc::loadSimulation("test/config_test/simulation_bad_5.config"));
 }
 
 TEST_CASE("Function loadRenderer - valid_1") {
@@ -55,15 +59,15 @@ TEST_CASE("Function loadRenderer - valid_1") {
 
 TEST_CASE("Function loadRenderer - bad_1") {
   CHECK_THROWS_WITH(nc::loadRenderer("test/config_test/renderer_bad_1.config"), 
-"Riga 3 valore in input non valido: width");
+"File test/config_test/renderer_bad_1.config   riga 3   valore in input non valido: width");
 }
 
 TEST_CASE("Function loadRenderer - bad_2") {
   CHECK_THROWS_WITH(nc::loadRenderer("test/config_test/renderer_bad_2.config"),
-"Riga 10 key non riconosciuta: key");
+"File test/config_test/renderer_bad_2.config   riga 10   key non riconosciuta: key");
 }
 
 TEST_CASE("Function loadRenderer - bad_3") {
   CHECK_THROWS_WITH(nc::loadRenderer("test/config_test/renderer_bad_3.config"),
-"Key non inizializzata: fps");
+"File test/config_test/renderer_bad_3.config   key non inizializzata: fps");
 }

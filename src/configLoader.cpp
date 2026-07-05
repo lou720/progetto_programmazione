@@ -60,8 +60,7 @@ SimulationConfig loadSimulation(std::string const& path) {
         sim_config.bodies.reserve(expetetd_size);
         initialized_values[key] = true;
       } catch (std::runtime_error const& e) {
-        throw std::runtime_error{"Riga " + std::to_string(nline) + " " +
-                                 e.what()};
+        throw std::runtime_error{errorMessage(path, nline) + e.what()};
       }
 
     } else if (key == "dt") {
@@ -71,8 +70,7 @@ SimulationConfig loadSimulation(std::string const& path) {
         sim_config.dt = stringToDouble(dt_str, key);
         initialized_values[key] = true;
       } catch (std::runtime_error const& e) {
-        throw std::runtime_error{"Riga " + std::to_string(nline) + " " +
-                                 e.what()};
+        throw std::runtime_error{errorMessage(path, nline) + e.what()};
       }
 
     } else if (key == "steps") {
@@ -82,8 +80,7 @@ SimulationConfig loadSimulation(std::string const& path) {
         sim_config.steps = stringToInt(steps_str, key);
         initialized_values[key] = true;
       } catch (std::runtime_error const& e) {
-        throw std::runtime_error{"Riga " + std::to_string(nline) + " " +
-                                 e.what()};
+        throw std::runtime_error{errorMessage(path, nline) + e.what()};
       }
 
     } else if (key == "G") {
@@ -93,8 +90,7 @@ SimulationConfig loadSimulation(std::string const& path) {
         sim_config.G = stringToDouble(G_str, key);
         initialized_values[key] = true;
       } catch (std::runtime_error const& e) {
-        throw std::runtime_error{"Riga " + std::to_string(nline) + " " +
-                                 e.what()};
+        throw std::runtime_error{errorMessage(path, nline) + e.what()};
       }
 
     } else if (key == "eps") {
@@ -104,8 +100,7 @@ SimulationConfig loadSimulation(std::string const& path) {
         sim_config.eps = stringToDouble(eps_str, key);
         initialized_values[key] = true;
       } catch (std::runtime_error const& e) {
-        throw std::runtime_error{"Riga " + std::to_string(nline) + " " +
-                                 e.what()};
+        throw std::runtime_error{errorMessage(path, nline) + e.what()};
       }
 
     } else if (key == "body") {
@@ -128,24 +123,30 @@ SimulationConfig loadSimulation(std::string const& path) {
                  stringToDouble(mass_str, key)});
         initialized_values[key] = true;
       } catch (std::runtime_error const& e) {
-        throw std::runtime_error{"Riga " + std::to_string(nline) + " " +
-                                 e.what()};
+        throw std::runtime_error{errorMessage(path, nline) + e.what()};
       }
 
     } else {
-      throw std::runtime_error{"Riga " + std::to_string(nline) +
-                               " key non riconosciuta: " + key};
+      throw std::runtime_error{errorMessage(path, nline) +
+                               "key non riconosciuta: " + key};
+    }
+    // controllo parole aggiuntive nella riga
+    std::string key2{};
+    if (ss >> key2) {
+      throw std::runtime_error{errorMessage(path, nline) + " troppi valori"};
     }
   }
 
   for (auto const& p : initialized_values) {
     if (p.second == false) {
-      throw std::runtime_error{"Key non inizializzata: " + p.first};
+      throw std::runtime_error{errorMessage(path) +
+                               "key non inizializzata: " + p.first};
     }
   }
 
   if (expetetd_size != sim_config.bodies.size()) {
     throw std::runtime_error{
+        errorMessage(path) +
         "Il numero di corpi dichiarati non corrisponde a quello dei corpi "
         "definiti"};
   }
@@ -201,48 +202,43 @@ RendererConfig loadRenderer(std::string const& path) {
         std::getline(ss, ren_config.title);
         initialized_values[key] = true;
       } catch (std::runtime_error const& e) {
-        throw std::runtime_error{"Riga " + std::to_string(nline) + " " +
-                                 e.what()};
+        throw std::runtime_error{errorMessage(path, nline) + e.what()};
       }
 
     } else if (key == "width") {
-      // ss >> ren_config.width;
       std::string width_str{};
       ss >> width_str;
       try {
-        ren_config.width = nc::stringToInt(width_str, key);
+        ren_config.width =
+            static_cast<unsigned int>(nc::stringToInt(width_str, key));
         initialized_values[key] = true;
       } catch (std::runtime_error const& e) {
-        throw std::runtime_error{"Riga " + std::to_string(nline) + " " +
-                                 e.what()};
+        throw std::runtime_error{errorMessage(path, nline) + e.what()};
       }
 
     } else if (key == "height") {
-      // ss >> ren_config.height;
       std::string height_str{};
       ss >> height_str;
       try {
-        ren_config.height = nc::stringToInt(height_str, key);
+        ren_config.height =
+            static_cast<unsigned int>(nc::stringToInt(height_str, key));
         initialized_values[key] = true;
       } catch (std::runtime_error const& e) {
-        throw std::runtime_error{"Riga " + std::to_string(nline) + " " +
-                                 e.what()};
+        throw std::runtime_error{errorMessage(path, nline) + e.what()};
       }
 
     } else if (key == "fps") {
-      // ss >> ren_config.fps;
       std::string fps_str{};
       ss >> fps_str;
       try {
-        ren_config.fps = nc::stringToInt(fps_str, key);
+        ren_config.fps =
+            static_cast<unsigned int>(nc::stringToInt(fps_str, key));
         initialized_values[key] = true;
       } catch (std::runtime_error const& e) {
-        throw std::runtime_error{"Riga " + std::to_string(nline) + " " +
-                                 e.what()};
+        throw std::runtime_error{errorMessage(path, nline) + e.what()};
       }
 
     } else if (key == "physics_substeps") {
-      // ss >> ren_config.physics_substeps;
       std::string physics_substeps_str{};
       ss >> physics_substeps_str;
       try {
@@ -250,34 +246,44 @@ RendererConfig loadRenderer(std::string const& path) {
             nc::stringToInt(physics_substeps_str, key);
         initialized_values[key] = true;
       } catch (std::runtime_error const& e) {
-        throw std::runtime_error{"Riga " + std::to_string(nline) + " " +
-                                 e.what()};
+        throw std::runtime_error{errorMessage(path, nline) + e.what()};
       }
 
     } else if (key == "radius") {
-      // ss >> ren_config.radius;
       std::string radius_str{};
       ss >> radius_str;
       try {
-        ren_config.radius = nc::stringToDouble(radius_str, key);
+        ren_config.radius =
+            static_cast<float>(nc::stringToDouble(radius_str, key));
         initialized_values[key] = true;
       } catch (std::runtime_error const& e) {
-        throw std::runtime_error{"Riga " + std::to_string(nline) + " " +
-                                 e.what()};
+        throw std::runtime_error{errorMessage(path, nline) + e.what()};
       }
     } else {
-      throw std::runtime_error{"Riga " + std::to_string(nline) +
-                               " key non riconosciuta: " + key};
+      throw std::runtime_error{errorMessage(path, nline) +
+                               "key non riconosciuta: " + key};
+    }
+    std::string key2{};
+    if (ss >> key2) {
+      throw std::runtime_error{errorMessage(path, nline) + "troppi valori"};
     }
   }
 
   for (auto const& p : initialized_values) {
     if (p.second == false) {
-      throw std::runtime_error{"Key non inizializzata: " + p.first};
+      throw std::runtime_error{errorMessage(path) +
+                               "key non inizializzata: " + p.first};
     }
   }
 
   return ren_config;
+}
+
+std::string errorMessage(std::string const& path, int nline) {
+  if (nline == -1) {
+    return "File " + path + "   ";
+  }
+  return "File " + path + "   riga " + std::to_string(nline) + "   ";
 }
 
 }  // namespace nc

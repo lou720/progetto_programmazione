@@ -12,8 +12,6 @@ struct Vec2 {
 
   Vec2& operator*=(double);
 
-  double norm() const;
-
   double norm2() const;
 };
 

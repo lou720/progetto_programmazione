@@ -62,7 +62,6 @@ struct Vec2 {
   + operator+=()
   + operator-=()
   + operator*=()
-  + norm()
   + norm2()
 }
 

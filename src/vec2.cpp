@@ -22,8 +22,6 @@ Vec2& Vec2::operator*=(double l) {
   return *this;
 }
 
-double Vec2::norm() const { return std::sqrt(x * x + y * y); }
-
 double Vec2::norm2() const { return x * x + y * y; }
 
 Vec2 operator+(Vec2 v1, Vec2 const& v2) { return v1 += v2; }

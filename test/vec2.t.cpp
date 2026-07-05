@@ -56,15 +56,6 @@ TEST_CASE("Vec2 norm2()") {
   CHECK(v3.norm2() == doctest::Approx(1.64));
 }
 
-TEST_CASE("Vec2 norm()") {
-  nc::Vec2 v1{8, 1};
-  nc::Vec2 v2{};
-  nc::Vec2 v3{-5, -1.7};
-  CHECK(v1.norm() == doctest::Approx(8.062258));
-  CHECK(v2.norm() == doctest::Approx(0));
-  CHECK(v3.norm() == doctest::Approx(5.281098));
-}
-
 TEST_CASE("Vec2 operator+") {
   nc::Vec2 v1{1., 1.};
   nc::Vec2 v2{1., 1.};
