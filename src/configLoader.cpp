@@ -29,6 +29,7 @@ SimulationConfig loadSimulation(std::string const& path) {
 
   std::string line{};
   int nline{};
+  int id{};  // il ciclo garantisce l'unicità dell'id
 
   while (std::getline(file, line)) {
     ++nline;
@@ -104,18 +105,17 @@ SimulationConfig loadSimulation(std::string const& path) {
       }
 
     } else if (key == "body") {
-      std::string id_str{};
+      ++id;
       std::string mass_str{};
       std::string pos_x_str{};
       std::string pos_y_str{};
       std::string vel_x_str{};
       std::string vel_y_str{};
 
-      ss >> id_str >> mass_str >> pos_x_str >> pos_y_str >> vel_x_str >>
-          vel_y_str;
+      ss >> mass_str >> pos_x_str >> pos_y_str >> vel_x_str >> vel_y_str;
       try {
         sim_config.bodies.emplace_back(
-            Body{stringToInt(id_str, key),
+            Body{id,
                  Vec2{stringToDouble(pos_x_str, key),
                       stringToDouble(pos_y_str, key)},
                  Vec2{stringToDouble(vel_x_str, key),
@@ -157,12 +157,12 @@ SimulationConfig loadSimulation(std::string const& path) {
 /*=====================================================*/
 
 RendererConfig loadRenderer(std::string const& path) {
-  std::map<std::string, bool> initialized_values{{"title", false},
-                                                 {"width", false},
-                                                 {"height", false},
-                                                 {"fps", false},
-                                                 {"physics_substeps_per_second", false},
-                                                 {"radius", false}};
+  std::map<std::string, bool> initialized_values{
+      {"title", false},
+      {"width", false},
+      {"height", false},
+      {"fps", false},
+      {"radius", false}};
 
   RendererConfig ren_config{};
 
@@ -233,17 +233,6 @@ RendererConfig loadRenderer(std::string const& path) {
       try {
         ren_config.fps =
             static_cast<unsigned int>(nc::stringToInt(fps_str, key));
-        initialized_values[key] = true;
-      } catch (std::runtime_error const& e) {
-        throw std::runtime_error{errorMessage(path, nline) + e.what()};
-      }
-
-    } else if (key == "physics_substeps_per_second") {
-      std::string physics_substeps_str{};
-      ss >> physics_substeps_str;
-      try {
-        ren_config.physics_substeps_per_second =
-            nc::stringToDouble(physics_substeps_str, key);
         initialized_values[key] = true;
       } catch (std::runtime_error const& e) {
         throw std::runtime_error{errorMessage(path, nline) + e.what()};

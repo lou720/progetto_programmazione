@@ -15,7 +15,6 @@ class Renderer {
   unsigned int width_{};
   unsigned int height_{};
   unsigned int fps_{};
-  double physics_substeps_{};
   sf::View view_;
   sf::CircleShape body_shape_;
 
@@ -31,8 +30,6 @@ class Renderer {
   unsigned int height() const;
 
   unsigned int fps() const;
-
-  double physicsSubstepsPerSecond() const;
 
   sf::View const& view() const;
 };

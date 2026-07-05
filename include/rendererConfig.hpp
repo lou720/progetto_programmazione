@@ -12,7 +12,6 @@ struct RendererConfig {
   unsigned int width{};
   unsigned int height{};
   unsigned int fps{};
-  double physics_substeps_per_second{};
   float radius{};
 };
 
