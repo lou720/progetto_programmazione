@@ -37,7 +37,8 @@ double potentialEnergy(std::vector<Body> const&, double G, double eps);
 
 double totalEnergy(std::vector<Body> const&, double G, double eps);
 
-Vec2 computeAccelerations(std::vector<Body> const&, Body const&, double G, double eps);
+Vec2 computeAccelerations(std::vector<Body> const&, Body const&, double G,
+                          double eps);
 
 }  // namespace nc
 #endif

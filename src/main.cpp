@@ -21,12 +21,13 @@ int main(int argc, char** argv) {
     // Load shape da file configurazionale
     nc::SimulationConfig sim_config = nc::loadSimulation(argv[1]);
     nc::RendererConfig ren_config = nc::loadRenderer("config/renderer.config");
-    double time_scale{1.}; // default 1 secondo reale = 1 secondo simulato  
+    double time_scale{1.};  // default 1 secondo reale = 1 secondo simulato
 
-     if (argc == 3) {
+    if (argc == 3) {
       time_scale = nc::stringToDouble(argv[2], "time_scale");
-      if (!( 0 < time_scale && time_scale < 10 )) {
-        throw std::runtime_error{"time_scale deve essere compreso tra 0 e 10 esclusi"};
+      if (!(0 < time_scale && time_scale < 10)) {
+        throw std::runtime_error{
+            "time_scale deve essere compreso tra 0 e 10 esclusi"};
       }
     }
 

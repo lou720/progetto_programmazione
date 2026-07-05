@@ -106,7 +106,7 @@ TEST_CASE("Vec2 operator*") {
   CHECK(p2.x == doctest::Approx(4));
   CHECK(p2.y == doctest::Approx(6));
   CHECK(p1 == p2);
-  
+
   p1 = v1 * 0;
   p2 = 0 * v1;
   CHECK(p1.x == doctest::Approx(0));

@@ -157,12 +157,11 @@ SimulationConfig loadSimulation(std::string const& path) {
 /*=====================================================*/
 
 RendererConfig loadRenderer(std::string const& path) {
-  std::map<std::string, bool> initialized_values{
-      {"title", false},
-      {"width", false},
-      {"height", false},
-      {"fps", false},
-      {"radius", false}};
+  std::map<std::string, bool> initialized_values{{"title", false},
+                                                 {"width", false},
+                                                 {"height", false},
+                                                 {"fps", false},
+                                                 {"radius", false}};
 
   RendererConfig ren_config{};
 

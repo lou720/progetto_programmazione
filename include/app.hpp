@@ -1,20 +1,21 @@
 #ifndef NC_APP_HPP
 #define NC_APP_HPP
 
+#include <SFML/Graphics.hpp>
+
 #include "renderer.hpp"
 #include "rendererConfig.hpp"
 #include "simulation.hpp"
 #include "simulationConfig.hpp"
-#include <SFML/Graphics.hpp>
 
 namespace nc {
 
-class App { 
+class App {
  private:
   Simulation simulation_;
   Renderer renderer_;
   double time_scale_;
-  sf::RenderWindow window_; 
+  sf::RenderWindow window_;
 
  public:
   App(SimulationConfig const&, RendererConfig const&, double);

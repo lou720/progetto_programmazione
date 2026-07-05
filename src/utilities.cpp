@@ -1,4 +1,5 @@
 #include "utilities.hpp"
+
 #include <stdexcept>
 
 namespace nc {
