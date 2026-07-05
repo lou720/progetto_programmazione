@@ -47,4 +47,12 @@ size_t stringToSize_t(std::string const& s, std::string const& key) {
     throw std::runtime_error{"valore in input fuori dal limite: " + key};
   }
 }
+
+std::string errorMessage(std::string const& path, int nline) {
+  if (nline == -1) {
+    return "File " + path + "   ";
+  }
+  return "File " + path + "   riga " + std::to_string(nline) + "   ";
+}
+
 }  // namespace nc

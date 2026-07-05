@@ -12,8 +12,6 @@ SimulationConfig loadSimulation(std::string const&);
 
 RendererConfig loadRenderer(std::string const&);
 
-std::string errorMessage(std::string const& path, int nline = -1);
-
 }  // namespace nc
 
 #endif
